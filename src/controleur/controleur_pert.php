@@ -5,7 +5,7 @@ function actionPert($twig, $db) {
     $pert = new Pert($db);
     $listeTachePreced = $pert->selectTachePreced();
     $listeTaches = $pert->selectTaches();
-    $a =-1;
+    $a=-1;
     $i=0;
     $tableNiveau = [];
     $tableTmpNiveau = [];
@@ -17,7 +17,7 @@ function actionPert($twig, $db) {
        
         while ($i <= count($listeTachePreced)-1){
             $i++;
-            
+           
             if($listeTaches[$a]["id_tache"] == $listeTachePreced[$i]["id_tache"]){
                 break;
             }
@@ -29,8 +29,6 @@ function actionPert($twig, $db) {
 
             if( count($listeTachePreced)==0){
                 $tableTmpNiveau[] = $listeTaches[$a]["id_tache"];
-                
-               
                 
             }
             
