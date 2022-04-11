@@ -7,7 +7,8 @@
 		{% block stylesheets %}
 			<!-- Bootstrap CSS -->
 			<link href="https://bootswatch.com/5/lux/bootstrap.min.css" rel="stylesheet">
-					<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+			<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 		{% endblock %}
 		<title>
 			{% block title %}MPMaster -
@@ -31,46 +32,44 @@
 						</li>
 						{% if session.login is not defined %}
 							<li class="nav-item">
-								<a class="nav-link active" href="index.php?page=inscription">Inscription
-									<span class="visually-hidden">(current)</span>
-								</a>
-							</li>
-							<li class="nav-item">
 								<a class="nav-link" href="index.php?page=connexion">Se connecter</a>
 								<span class="visually-hidden">(current)</span>
 							</li>
-						</a>
-					</li>
-				{% else %}
-					
-				</a>  
-			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Mes projets</a>
-				<div class="dropdown-menu">
-					<a class="dropdown-item" href="index.php?page=ajoutProjet">Créer un projet</a>
-					<a class="dropdown-item" href="index.php?page=listeProjets">Consulter mes projets</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="index.php?page=ajoutTache">Ajouter une tache</a>
-				</div>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="index.php?page=ajoutEntreprise">Ajouter une entreprise</a>
-				<span class="visually-hidden">(current)</span>
-			</li>
-		</ul>
-		<ul class="navbar-nav">
-			<li class="nav-item">
-				<a class="nav-link active" href="">Profil
-					<span class="visually-hidden">(current)</span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<a class="btn btn-secondary my-2 my-sm-0" href="">Se déconnecter</a>
-				<span class="visually-hidden">(current)</span>
-			</li>
-		</ul>
-    {% endif %}
-		
+							<li class="nav-item">
+								<a class="nav-link" href="index.php?page=abonnements">Abonnements</a>
+								<span class="visually-hidden">(current)</span>
+							</li>
+						{% else %}
+							{% if session.role == 2 %}
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Gestion</a>
+									<div class="dropdown-menu">
+										<a class="dropdown-item" href="index.php?page=ajoutProjet">Créer un projet</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="index.php?page=inscription">Ajouter un participant</a>
+									</div>
+								{% elseif session.role == 3 %}
+								<li class="nav-item">
+									<a class="nav-link" href="index.php?page=ajoutEntreprise">Créer une tache</a>
+									<span class="visually-hidden">(current)</span>
+								</li>
+								{% elseif session.role == 4 %}
+								<li class="nav-item">
+									<a class="nav-link" href="index.php?page=listeTacheByUtilisateur">Taches en cours</a>
+									<span class="visually-hidden">(current)</span>
+								</li>
+								{% endif %}
+							</ul>
+							<ul class="navbar-nav">
+								<li class="nav-item">
+									<a class="btn btn-secondary my-2 my-sm-0" href="index.php?page=deconnexion">Se déconnecter</a>
+									<span class="visually-hidden">(current)</span>
+								</li>
+							</ul>
+						{% endif %}
+					</body>
+				</body>
+			</html>
+		</div>
 	</body>
-</html></div></div></nav>{% for message in app.flashes('notice') %}<h2 class="alert alert-warning text-center mt-4 mb-4" role="alert">{{ message }}</h2>{% endfor %}{% block body %}{% endblock %}{% block javascripts %}<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>{% endblock %}</body></html>
+</html></div></nav>{% for message in app.flashes('notice') %}<h2 class="alert alert-warning text-center mt-4 mb-4" role="alert">{{ message }}</h2>{% endfor %}{% block body %}{% endblock %}{% block javascripts %}<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>{% endblock %}</body></html>

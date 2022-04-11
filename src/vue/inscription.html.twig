@@ -55,10 +55,19 @@
             <input type="password" id="confirmation" name="confirmation" required="required" class="form-control"/>
           </div>
           <br></br>
+          {% if session.role == 2 %}
+          <div class="form-group">
+            Chef de projet
+            <label class="font-weight-bold required" for="role_oui">oui</label>
+            <input type="radio" id="role_oui" name="role" value='1'/>
+            <label class="font-weight-bold required" for="role_non">non</label>
+            <input type="radio" id="role_non" name="role"  value='0' checked/>
+          </div>
+          <br></br>
+          {% endif %}
           <div class="form-group mx-auto text-center">
             <button type="submit" id="btInscrire" name="btInscrire" class="btn font-weightbold bg-success text-white mx-auto text-center">S&#039;inscire</button>
           </div>
-
         </div>
       </div>
     </div>

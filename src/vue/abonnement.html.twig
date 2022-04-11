@@ -1,0 +1,63 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EntrepriseController!{% endblock %}
+
+{% block body %}
+
+    {% if form.valide is defined %}
+        {% if form.valide == false %}
+            
+            <div class="alert alert-danger h3 mb-3 font-weight-normal" role="alert">
+                {{ form.message }}
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-success h3 mb-3 font-weight-normal" role="alert">
+                {{ form.message }}
+            </div>
+
+        {% endif %}
+    {% else %}
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <h1 class="text-center text-secondary p-4">Liste des abonnements </h1>
+    </div>
+  <div class="row justify-content-center">
+        <div class="col-8 bg-secondary p-4 m-0 text-white">
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Nom</th>
+      <th scope="col">Nombre d'utilisateur</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>10</td>
+    <td><div class="btn-group btn-group-lg"><a href="index.php?page=ajoutEntreprise"><span class="material-icons">login</span></a></div></td>
+
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>20</td>
+    <td><div class="btn-group btn-group-lg"><a href="index.php?page=ajoutEntreprise"><span class="material-icons">login</span></a></div></td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td>30</td>
+    <td><div class="btn-group btn-group-lg"><a href="index.php?page=ajoutEntreprise"><span class="material-icons">login</span></a></div></td>
+    </tr>
+  </tbody>
+</table>
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
+{% endblock %}
