@@ -43,7 +43,8 @@ function actionConnexion($twig,$db){
             }
             else{
                 $_SESSION['login'] = $email;
-                $_SESSION['role'] = $unUtilisateur['role'];
+                $_SESSION['role'] = $unUtilisateur['id_role'];
+                $_SESSION['entreprise'] = $unUtilisateur['id_entreprise'];
                 header("Location:index.php");
             }
         }
@@ -65,15 +66,16 @@ function actionInscription($twig,$db){
         $prenom = $_POST['prenom'];
         $mdp = $_POST['password'];
         $confirmation =$_POST['confirmation'];
-        if($_GET['idrole'] == '1'){
-           $role = 'ROLE_ENTREPRISE';
-        }elseif($_GET['idrole'] == '2'){
-            $role = 'ROLE_CHEF';
-        }elseif($_GET['idrole'] == '3'){
-            $role = 'ROLE_DEVELOPPEUR';
+        if(isset($_POST['role'])){
+            if($_POST['role']){
+                $role = 3;
+            }else{
+                $role = 4;
+            }
         }else{
-            $role = 'ROLE_UNKNOWN';
+            $role = 2;
         }
+        $entreprise = isset($_SESSION['entreprise'])? $_SESSION['entreprise'] : $_GET['idEntreprise'];
         $form['valide'] = true;
         if ($mdp!=$confirmation){
             $form['valide'] = false;
@@ -81,7 +83,7 @@ function actionInscription($twig,$db){
         }
         else{
             $utilisateur = new Utilisateur($db);
-            $exec = $utilisateur->insert($email, password_hash($mdp,PASSWORD_DEFAULT),$nom, $prenom, $role);
+            $exec = $utilisateur->insert($email, password_hash($mdp,PASSWORD_DEFAULT),$nom, $prenom, $role, $entreprise);
             if (!$exec){
                 $form['valide'] = false;
                 $form['message'] = 'Problème d\'insertion dans la table utilisateur ';

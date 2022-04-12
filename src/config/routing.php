@@ -1,7 +1,6 @@
 <?php
 function getPage($db)
 {
-
     $lesPages['accueil'] = "actionAccueil;0";
     $lesPages['apropos'] = "actionApropos;0";
     $lesPages['mentions'] = "actionMentions;0";
@@ -13,6 +12,7 @@ function getPage($db)
     $lesPages['ajoutProjet'] = "actionAjoutProjet;0";
     $lesPages['ajoutTache'] = "actionAjoutTache;0";
     $lesPages['listeProjets'] = "actionListeProjets;0";
+    $lesPages['pert'] = "actionPert;0";
     $lesPages['abonnements'] = "actionAbonnements;0";
 
     /*****************
@@ -20,6 +20,11 @@ function getPage($db)
     *****************/
 
     $lesPages['allUsers'] = "actionAllUsers;0";
+    $lesPages['inscriptionEntreprise'] = "actioninscriptionEntreprise;0";
+
+    $lesPages['userByEmail'] = "actionUserByEmail;0";
+    $lesPages['userByEntreprise'] = "actionUserByEntreprise;0";
+    $lesPages['projetByUser'] = "actionProjetByUser;0";
 
    
     if ($db != null) {
