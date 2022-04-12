@@ -5,12 +5,14 @@ class Utilisateur{
     private $insert;
     private $connect;
     private $selectByEmail;
+    private $select;
 
     public function __construct($db){
         $this->db=$db;
         $this->insert = $db->prepare("insert into utilisateur(email,mdp,nom,prenom,role) values(:email,:mdp,:nom,:prenom,:role)");
         $this->connect = $db->prepare("select email, mdp, role from utilisateur where email=:email");
         $this->selectByEmail = $db->prepare("select * from utilisateur where email=:email");
+        $this->select = $db->prepare("select * from utilisateur");
     }
 
     public function insert($email, $mdp, $nom, $prenom,$role) { // Étape 3
@@ -36,6 +38,14 @@ class Utilisateur{
             print_r($this->selectByEmail->errorInfo());
         }
         return $this->selectByEmail->fetch();
+    }
+
+    public function select(){
+        $this->select->execute();
+        if ($this->select->errorCode()!=0){
+            print_r($this->select->errorInfo());
+        }
+        return $this->select->fetchAll();
     }
 
 }
