@@ -22,8 +22,13 @@ function actionAjoutProjet($twig, $db) {
     echo $twig->render('ajoutProjet.html.twig', array('form'=>$form, 'chefs'=>$chef));
 }
 
-function actionListeProjets($twig) {
-    echo $twig->render('listeProjets.html.twig', array());
+function actionListeProjets($twig, $db) {
+    $form = array();
+    $projet = new Projet($db);
+    $utilisateur = new Utilisateur($db);
+    $unUtilisateur = $utilisateur->selectByEmail($_SESSION['login']);
+    $listeProjet = $projet->selectProjetById($unUtilisateur['id_utilisateur']);
+    echo $twig->render('listeProjets.html.twig', array('form'=>$form, 'projets'=>$listeProjet));
 }
 
 ?>
