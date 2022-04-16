@@ -6,8 +6,50 @@
  <script src="https://unpkg.com/gojs@2.2.6/release/go.js"></script>
   <div id="allSampleContent" class="p-4 w-full">
     <script id="code">
-    function init() {
 
+    function init() {
+     
+    var jsTachePreced = document.querySelector('.js-tache-preced');
+    var tachePrecedString = jsTachePreced.dataset.isAuthenticated;
+    var jsTableNiveau = document.querySelector('.js-table-niveau');
+    var niveauString = jsTableNiveau.dataset.isAuthenticated;
+    
+    
+    var tableTachePrecedent = [];
+    var niveau1 = [];
+    var dernierNiv = [];
+    var niveaux = niveauString.substring(1,niveauString.length);
+    niveaux = niveaux.substring(0, niveaux.length - 1);
+    var premierNiveau = niveaux.match(/\[(.*?)\]/ig);
+    var dernierNiveau = niveaux.match(/\[(.*?)\]/ig);
+    dernierNiveau = dernierNiveau[premierNiveau.length-1].match(/(?<=\").*?(?=\")/ig);
+    premierNiveau = premierNiveau[0].match(/(?<=\").*?(?=\")/ig);
+    var id_tache = tachePrecedString.split('id_tache":"');
+    var id_tache_precedente = tachePrecedString.split('id_tache_precedente":"');
+   
+
+    id_tache.forEach((item, index) => {
+    if (index == 0){
+      return;}
+    let id = item.split('"');
+    let id_precedent = id_tache_precedente[index].split('"');
+    tableTachePrecedent.push([id[0],id_precedent[0]]);
+
+    }); 
+    premierNiveau.forEach((item, index) => {
+    if (index%2 == 0 || index ==0){
+          niveau1.push(item);  
+      }
+
+    }); 
+    dernierNiveau.forEach((item, index) => {
+    if (index%2 == 0 || index ==0){
+          dernierNiv.push(item);  
+      }
+
+    }); 
+    
+    
       // Since 2.2 you can also author concise templates with method chaining instead of GraphObject.make
       // For details, see https://gojs.net/latest/intro/buildingObjects.html
       const $ = go.GraphObject.make;  // for more concise visual tree definitions
@@ -109,28 +151,28 @@
 
       // here's the data defining the graph
       var nodeDataArray = [
-        { key: 1, text: "Start", length: 0, earlyStart: 0, lateFinish: 0, critical: true },
-        { key: 2, text: "a", length: 4, earlyStart: 0, lateFinish: 4, critical: true },
-        { key: 3, text: "b", length: 5.33, earlyStart: 0, lateFinish: 9.17, critical: false },
-        { key: 4, text: "c", length: 5.17, earlyStart: 4, lateFinish: 9.17, critical: true },
-        { key: 5, text: "d", length: 6.33, earlyStart: 4, lateFinish: 15.01, critical: false },
-        { key: 6, text: "e", length: 5.17, earlyStart: 9.17, lateFinish: 14.34, critical: true },
-        { key: 7, text: "f", length: 4.5, earlyStart: 10.33, lateFinish: 19.51, critical: false },
-        { key: 8, text: "g", length: 5.17, earlyStart: 14.34, lateFinish: 19.51, critical: true },
-        { key: 9, text: "Finish", length: 0, earlyStart: 19.51, lateFinish: 19.51, critical: true }
-      ];
-      var linkDataArray = [
-        { from: 1, to: 2 },
-        { from: 1, to: 4 },
-        { from: 2, to: 4 },
-        { from: 2, to: 5 },
-        { from: 3, to: 6 },
-        { from: 4, to: 6 },
-        { from: 5, to: 7 },
-        { from: 6, to: 8 },
-        { from: 7, to: 9 },
-        { from: 8, to: 9 }
-      ];
+        { key: "Start", text: "Start", length: 0, earlyStart: 0, lateFinish: 0, critical: true },
+        { key: 1, text: "1", length: 0, earlyStart: 0, lateFinish: 0, critical: true },
+        { key: 2, text: "2", length: 4, earlyStart: 0, lateFinish: 4, critical: true },
+        { key: 3, text: "3", length: 5.33, earlyStart: 0, lateFinish: 9.17, critical: false },
+        { key: 4, text: "4", length: 5.17, earlyStart: 4, lateFinish: 9.17, critical: true },
+        { key: 44, text: "44", length: 6.33, earlyStart: 4, lateFinish: 15.01, critical: false },
+        { key: 45, text: "45", length: 6.33, earlyStart: 4, lateFinish: 15.01, critical: false },
+        { key: 46, text: "46", length: 6.33, earlyStart: 4, lateFinish: 15.01, critical: false },
+        { key: "Fin", text: "Fin", length: 6.33, earlyStart: 4, lateFinish: 15.01, critical: true },
+        ];
+      
+      var linkDataArray = [];
+    
+       niveau1.forEach((item, index) => {
+         linkDataArray.push({ from: "Start" , to: item }); 
+      });
+      tableTachePrecedent.forEach((item, index) => {
+         linkDataArray.push({ from: item[1] , to: item[0] }); 
+      });
+      dernierNiveau.forEach((item, index) => {
+         linkDataArray.push({ from: item , to: "Fin" }); 
+      });
       myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
 
       // create an unbound Part that acts as a "legend" for the diagram
@@ -172,7 +214,8 @@
   <div id="myDiagramDiv" style="border: 1px solid black; width: 100%; height: 400px; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0);"><canvas tabindex="0" width="1555" height="597" style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; touch-action: none; width: 1037px; height: 398px;">This text is displayed if your browser does not support the Canvas HTML element.</canvas><div style="position: absolute; overflow: auto; width: 1037px; height: 398px; z-index: 1;"><div style="position: absolute; width: 1px; height: 1px;"></div></div></div>
 
    </div>
-{% for u in tableNiveau %}
-   <p>{{ u }}</p>
-{% endfor %}
+   <div class="js-tache-preced" data-is-authenticated="{{listeTachePreced}}"></div>
+   <div class="js-table-niveau" data-is-authenticated="{{tableNiveau}}"></div>
+   
+
 {% endblock %}
