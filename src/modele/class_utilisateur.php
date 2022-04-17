@@ -6,13 +6,15 @@ class Utilisateur{
     private $connect;
     private $selectByEmail;
     private $selectByEntreprise;
+    private $delete;
 
     public function __construct($db){
         $this->db=$db;
-        $this->insert = $db->prepare("insert into utilisateur(email,mdp,nom,prenom,id_role, id_entreprise) values(:email,:mdp,:nom,:prenom,:role, :entreprise)");
+        $this->insert = $db->prepare("insert into utilisateur(email,mdp,nom,prenom,id_role, id_entreprise) values(:email,:mdp,:nom,:prenom,:role,:entreprise)");
         $this->connect = $db->prepare("select email, mdp, id_role, id_entreprise from utilisateur where email=:email");
         $this->selectByEmail = $db->prepare("select * from utilisateur where email=:email");
         $this->selectByEntreprise = $db->prepare("select * from utilisateur where id_entreprise=:id_entreprise");
+        $this->delete = $db->prepare("DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur");
     }
 
     public function insert($email, $mdp, $nom, $prenom,$role, $entreprise) { // Étape 3
@@ -48,4 +50,11 @@ class Utilisateur{
         return $this->selectByEntreprise->fetchAll();
     }
 
+    public function delete($id_utilisateur){
+        $this->delete->execute(array(':id_utilisateur'=>$id_utilisateur));
+        if ($this->delete->errorCode()!=0){
+            print_r($this->delete->errorInfo());
+        }
+        return $this->delete->fetch();
+    }
 }
