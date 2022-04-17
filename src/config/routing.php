@@ -14,6 +14,12 @@ function getPage($db)
     $lesPages['listeProjets'] = "actionListeProjets;0";
     $lesPages['pert'] = "actionPert;0";
     $lesPages['abonnements'] = "actionAbonnements;0";
+
+    /*****************
+     Routing des API
+    *****************/
+
+    $lesPages['allUsers'] = "actionAllUsers;0";
     $lesPages['inscriptionEntreprise'] = "actioninscriptionEntreprise;0";
 
     $lesPages['userByEmail'] = "actionUserByEmail;0";

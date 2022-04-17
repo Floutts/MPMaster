@@ -5,6 +5,7 @@ class Utilisateur{
     private $insert;
     private $connect;
     private $selectByEmail;
+    private $select;
     private $selectByEntreprise;
     private $delete;
 
@@ -13,6 +14,7 @@ class Utilisateur{
         $this->insert = $db->prepare("insert into utilisateur(email,mdp,nom,prenom,id_role, id_entreprise) values(:email,:mdp,:nom,:prenom,:role,:entreprise)");
         $this->connect = $db->prepare("select email, mdp, id_role, id_entreprise from utilisateur where email=:email");
         $this->selectByEmail = $db->prepare("select * from utilisateur where email=:email");
+        $this->select = $db->prepare("select * from utilisateur");
         $this->selectByEntreprise = $db->prepare("select * from utilisateur where id_entreprise=:id_entreprise");
         $this->delete = $db->prepare("DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur");
     }
@@ -42,6 +44,13 @@ class Utilisateur{
         return $this->selectByEmail->fetch();
     }
 
+    public function select(){
+        $this->select->execute();
+        if ($this->select->errorCode()!=0){
+            print_r($this->select->errorInfo());
+        }
+        return $this->select->fetchAll();
+    }
     public function selectByEntreprise($id_entreprise){
         $this->selectByEntreprise->execute(array(':id_entreprise'=>$id_entreprise));
         if ($this->selectByEntreprise->errorCode()!=0){
