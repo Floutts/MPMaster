@@ -13,8 +13,10 @@
     var tachePrecedString = jsTachePreced.dataset.isAuthenticated;
     var jsTableNiveau = document.querySelector('.js-table-niveau');
     var niveauString = jsTableNiveau.dataset.isAuthenticated;
+    var jsTableTaches = document.querySelector('.js-table-info-taches');
+    var tachesString = jsTableTaches.dataset.isAuthenticated;
     
-    
+    alert(tachesString);
     var tableTachePrecedent = [];
     var niveau1 = [];
     var dernierNiv = [];
@@ -216,6 +218,7 @@
    </div>
    <div class="js-tache-preced" data-is-authenticated="{{listeTachePreced}}"></div>
    <div class="js-table-niveau" data-is-authenticated="{{tableNiveau}}"></div>
+   <div class="js-table-info-taches" data-is-authenticated="{{listeInfoTaches}}"></div>
    
 
 {% endblock %}

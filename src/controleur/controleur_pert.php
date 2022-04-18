@@ -5,6 +5,7 @@ function actionPert($twig, $db) {
     $pert = new Pert($db);
     $listeTachePreced = $pert->selectTachePreced();
     $listeTaches = $pert->selectTaches();
+    $listeInfoTaches = $pert->selectTaches();
     $not_in = "0";
     $not_in_tmp = "";
     $tableNiveau = [];
@@ -27,7 +28,7 @@ function actionPert($twig, $db) {
 
     var_dump(json_encode($tableNiveau));
         
-    echo $twig->render('pert.html.twig', array('listeTachePreced'=>json_encode($listeTachePreced), 'listeTaches'=>json_encode($listeTaches), 'tableNiveau'=> json_encode($tableNiveau)));
+    echo $twig->render('pert.html.twig', array('listeTachePreced'=>json_encode($listeTachePreced), 'listeInfoTaches'=>json_encode($listeInfoTaches), 'tableNiveau'=> json_encode($tableNiveau)));
 }
 
 
