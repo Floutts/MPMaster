@@ -14,6 +14,8 @@ function getPage($db)
     $lesPages['listeProjets'] = "actionListeProjets;0";
     $lesPages['pert'] = "actionPert;0";
     $lesPages['abonnements'] = "actionAbonnements;0";
+    $lesPages['risque'] = "actionListeRisques;0";
+
 
     /*****************
      Routing des API

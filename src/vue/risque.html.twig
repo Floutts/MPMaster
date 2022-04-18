@@ -5,32 +5,16 @@
 
 {% block body %}
 
-	{% if form.valide is defined %}
-		{% if form.valide == false %}
-
-			<div class="alert alert-danger h3 mb-3 font-weight-normal" role="alert">
-				{{ form.message }}
-			</div>
-
-		{% else %}
-
-			<div class="alert alert-success h3 mb-3 font-weight-normal" role="alert">
-				{{ form.message }}
-			</div>
-
-		{% endif %}
-	{% else %}
-
 		<div class="container-fluid">
 			<div class="row justify-content-center">
-				<h1 class="text-center text-secondary p-4">Liste de mes projets</h1>
+				<h1 class="text-center text-secondary p-4">Liste des risques</h1>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-8 bg-secondary p-4 m-0 text-white">
 					<table class="table">
 						<thead>
 							<tr>
-								<th scope="col">Nom du projet</th>
+								<th scope="col">Nom du risque</th>
 								<th scope="col"></th>
 								<th scope="col"></th>
                                 <th scope="col"></th>
@@ -56,7 +40,7 @@
 								</td>
                                 <td>
 									<div class="btn-group btn-group-lg">
-										<a href="index.php?page=risque">
+										<a href="index.php?page=ajoutTache">
 											<span class="material-icons">warning</span>
 										</a>
 									</div>
@@ -68,7 +52,4 @@
 				</div>
 			</div>
 		</div>
-
-	{% endif %}
-
 {% endblock %}

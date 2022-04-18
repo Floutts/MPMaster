@@ -27,7 +27,12 @@ function actionListeProjets($twig, $db) {
     $projet = new Projet($db);
     $utilisateur = new Utilisateur($db);
     $unUtilisateur = $utilisateur->selectByEmail($_SESSION['login']);
-    $listeProjet = $projet->selectProjetById($unUtilisateur['id_utilisateur']);
+    if($unUtilisateur['id_role'] == 1){
+        $listeProjet = $projet->selectByEntreprise($_SESSION['entreprise']);
+    }
+    else{
+        $listeProjet = $projet->selectProjetById($unUtilisateur['id_utilisateur']);
+    }
     echo $twig->render('listeProjets.html.twig', array('form'=>$form, 'projets'=>$listeProjet));
 }
 
