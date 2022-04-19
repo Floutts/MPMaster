@@ -7,6 +7,7 @@ class Utilisateur{
     private $selectByEmail;
     private $select;
     private $selectByEntreprise;
+    private $selectByProjet;
 
     public function __construct($db){
         $this->db=$db;
@@ -15,6 +16,7 @@ class Utilisateur{
         $this->selectByEmail = $db->prepare("select * from utilisateur where email=:email");
         $this->select = $db->prepare("select * from utilisateur");
         $this->selectByEntreprise = $db->prepare("select * from utilisateur where id_entreprise=:id_entreprise");
+        $this->selectByProjet = $db->prepare("select distinct u.* from utilisateur u inner join projet_utilisateur pu on u.id_utilisateur = pu.id_utilisateur inner join projet p on pu.id_projet = p.id_projet and p.id_projet = :idProjet");
     }
 
     public function insert($email, $mdp, $nom, $prenom,$role, $entreprise) { // Étape 3
@@ -49,6 +51,15 @@ class Utilisateur{
         }
         return $this->select->fetchAll();
     }
+
+    public function selectByProjet($idProjet){
+        $this->selectByProjet->execute(array(':idProjet'=>$idProjet));
+        if ($this->selectByProjet->errorCode()!=0){
+            print_r($this->selectByProjet->errorInfo());
+        }
+        return $this->selectByProjet->fetchAll();
+    }
+
     public function selectByEntreprise($id_entreprise){
         $this->selectByEntreprise->execute(array(':id_entreprise'=>$id_entreprise));
         if ($this->selectByEntreprise->errorCode()!=0){

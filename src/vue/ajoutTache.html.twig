@@ -7,17 +7,14 @@
 
 {% if form.valide is defined %}
 	{% if form.valide == false %}
-
 		<div class="alert alert-danger h3 mb-3 font-weight-normal" role="alert">
 			{{ form.message }}
 		</div>
 
 	{% else %}
-
 		<div class="alert alert-success h3 mb-3 font-weight-normal" role="alert">
 			{{ form.message }}
 		</div>
-
 	{% endif %}
 {% else %}
 
@@ -38,14 +35,12 @@
 					<input type="number" step="0.1" id="duree" name="duree" required="required" class="form-control"/>
 				</div>
 				<br></br>
+			{% for u in utilisateurs %}
 			<div class="form-group">
-				<label class="font-weightbold required" for="chef">Nom du projet :</label>
-				<select name="projet" id="projet">
-					{% for p in projets %}
-						<option value="{{ p.id_projet }}">{{ p.libelle }}</option>
-					{% endfor %}
-				</select>
+				<label class="font-weightbold required" for="chef">{{u.prenom}}</label>
+				<input type="checkbox" name="utilsateurTache[]" value="{{u.id_utilisateur}}"/>
 			</div>
+			{% endfor %}
 			<br></br>
 		<div class="form-group mx-auto text-center">
 			<button type="submit" id="btAjoutProjet" name="btAjoutTache" class="btn font-weightbold bg-success text-white mx-auto text-center">Ajouter</button>
