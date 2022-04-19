@@ -15,35 +15,39 @@
 						<thead>
 							<tr>
 								<th scope="col">Nom du risque</th>
-								<th scope="col"></th>
-								<th scope="col"></th>
-                                <th scope="col"></th>
+								<th scope="col">Classe de Risque</th>
+								<th scope="col">Probabilite</th>
+								<th scope="col">Severite</th>
+                                <th scope="col">Coût de réduction du risque</th>
+								<th scope="col">Moyen de détection</th>
+                                <th scope="col">Moyen de correction</th>
 							</tr>
 						</thead>
 						<tbody>
-                        {% for p in projets %}
+                        {% for p in risques %}
 							<tr>
-								<th scope="row">{{p.libelle}}</th>
+								<th scope="row">{{p.libelleRisque}}</th>
 								<td>	
-                                    <div class="btn-group btn-group-lg">
-										<a href="index.php?page=listeTache">
-											<span class="material-icons">reorder</span>
-										</a>
-									</div>
+                                   
+										{{p.libelleCRisque}} 
+									
+                                    </td>
+								<td>	
+                                   
+										{{p.probabilite}} %
+									
                                     </td>
 								<td>
-									<div class="btn-group btn-group-lg">
-										<a href="index.php?page=ajoutTache">
-											<span class="material-icons">add</span>
-										</a>
-									</div>
+										{{p.severite}}
 								</td>
                                 <td>
-									<div class="btn-group btn-group-lg">
-										<a href="index.php?page=ajoutTache">
-											<span class="material-icons">warning</span>
-										</a>
-									</div>
+										{{p.cout_reduc_risque}} €
+								</td>
+								<td>
+										{{p.moyen_detection}} 
+								</td>
+								<td>
+										{{p.mesure_correction}} 
 								</td>
 							</tr>
                             {% endfor %}
