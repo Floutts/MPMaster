@@ -17,6 +17,7 @@ function getPage($db)
     $lesPages['pert'] = "actionPert;0";
     $lesPages['abonnements'] = "actionAbonnements;0";
     $lesPages['risque'] = "actionAjoutRisque;0";
+    $lesPages['listeRisques'] = "actionListeRisques;0";
 
 
     /*****************
