@@ -7,4 +7,5 @@ require_once "controleur_tache.php";
 require_once "controleur_api.php";
 require_once "controleur_pert.php";
 require_once "controleur_risque.php";
+require_once "controleur_anomalie.php";
 ?>
