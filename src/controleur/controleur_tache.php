@@ -31,13 +31,24 @@ function actionAjoutTache($twig, $db) {
     echo $twig->render('ajoutTache.html.twig', array('form'=>$form, 'utilisateurs'=>$UtilisateursByProjet));
 }
 
-function actionListeTaches($twig, $db) {
+function actionListeTacheByUtilisateur($twig, $db) {
     $form = array();
-    $projet = new Projet($db);
+    $tache = new Tache($db);
     $utilisateur = new Utilisateur($db);
     $unUtilisateur = $utilisateur->selectByEmail($_SESSION['login']);
-    $listeProjet = $projet->selectProjetById($unUtilisateur['id_utilisateur']);
-    echo $twig->render('listeProjets.html.twig', array('form'=>$form,'projets'=>$listeProjet ));
+    $listeTaches = $tache->selectTachesByUser($unUtilisateur['id_utilisateur']);
+    echo $twig->render('listeTachesUtilisateur.html.twig', array('form'=>$form,'taches'=>$listeTaches ));
 }
+
+
+function actionListeTacheByProjet($twig, $db) {
+    $form = array();
+    $idProjet = $_GET['idProjet'];
+    $tache = new Tache($db);
+    $listeTaches = $tache->selectTachesByProjet($idProjet);
+    var_dump($idProjet);
+    echo $twig->render('listeTachesProjet.html.twig', array('form'=>$form,'taches'=>$listeTaches));
+}
+
 
 ?>

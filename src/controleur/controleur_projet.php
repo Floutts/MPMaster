@@ -2,9 +2,8 @@
 
 function actionAjoutProjet($twig, $db) {
     $form = array();
-    
-    echo '<script> confirm("Attention, votre projet ne contient pas d\'utilisateur"); </script>';
     $idEntreprise = isset($_SESSION['entreprise'])? $_SESSION['entreprise'] : false;
+    var_dump($_SESSION);
     $projet = new Projet($db);
     $utilisateur = new Utilisateur($db);
     $listeUtilisateur = $utilisateur->selectByEntreprise($idEntreprise);
@@ -21,7 +20,6 @@ function actionAjoutProjet($twig, $db) {
                 }
             }else{
                 $utilisateurProjet = array();
-                echo '<script> alert("Attention, votre projet ne contient pas d\'utilisateur"); </script>';
             }
             $form['valide'] = true;
             $form['message'] = "Projet ajouté";
@@ -36,10 +34,16 @@ function actionAjoutProjet($twig, $db) {
 
 function actionListeProjets($twig, $db) {
     $form = array();
+    var_dump($_SESSION);
     $projet = new Projet($db);
     $utilisateur = new Utilisateur($db);
     $unUtilisateur = $utilisateur->selectByEmail($_SESSION['login']);
-    $listeProjet = $projet->selectProjetById($unUtilisateur['id_utilisateur']);
+    if($unUtilisateur['id_role'] == 1){
+        $listeProjet = $projet->selectByEntreprise($_SESSION['entreprise']);
+    }
+    else{
+        $listeProjet = $projet->selectProjetById($unUtilisateur['id_utilisateur']);
+    }
     echo $twig->render('listeProjets.html.twig', array('form'=>$form, 'projets'=>$listeProjet));
 }
 

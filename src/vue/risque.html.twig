@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EntrepriseController!
+{% endblock %}
+
+{% block body %}
+
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<h1 class="text-center text-secondary p-4">Liste des risques</h1>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-8 bg-secondary p-4 m-0 text-white">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Nom du risque</th>
+								<th scope="col">Classe de Risque</th>
+								<th scope="col">Probabilite</th>
+								<th scope="col">Severite</th>
+                                <th scope="col">Coût de réduction du risque</th>
+								<th scope="col">Moyen de détection</th>
+                                <th scope="col">Moyen de correction</th>
+							</tr>
+						</thead>
+						<tbody>
+                        {% for p in risques %}
+							<tr>
+								<th scope="row">{{p.libelleRisque}}</th>
+								<td>	
+                                   
+										{{p.libelleCRisque}} 
+									
+                                    </td>
+								<td>	
+                                   
+										{{p.probabilite}} %
+									
+                                    </td>
+								<td>
+										{{p.severite}}
+								</td>
+                                <td>
+										{{p.cout_reduc_risque}} €
+								</td>
+								<td>
+										{{p.moyen_detection}} 
+								</td>
+								<td>
+										{{p.mesure_correction}} 
+								</td>
+							</tr>
+                            {% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+{% endblock %}
