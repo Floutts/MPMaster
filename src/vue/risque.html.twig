@@ -21,6 +21,7 @@
                                 <th scope="col">Coût de réduction du risque</th>
 								<th scope="col">Moyen de détection</th>
                                 <th scope="col">Moyen de correction</th>
+								<th scope="col"></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -48,6 +49,13 @@
 								</td>
 								<td>
 										{{p.mesure_correction}} 
+								</td>
+								<td>
+									<div class="btn-group btn-group-lg">
+										<a href="index.php?page=listeRisques&idProjet={{idProjet}}&idRisque={{p.id_type_risque}}">
+											<span class="material-icons">delete</span>
+										</a>
+									</div>
 								</td>
 							</tr>
                             {% endfor %}
