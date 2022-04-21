@@ -27,4 +27,32 @@ function actionProjetByUser($twig,$db){
     header('Content-Type: application/json');
     echo json_encode($projetByUser);
 }
+
+function actionProjetByEntreprise($twig,$db){
+    $projet = new Projet($db);
+    $projetByEntreprise = $projet->selectByEntreprise($_GET['idEntreprise']);
+    header('Content-Type: application/json');
+    echo json_encode($projetByEntreprise);
+}
+
+function actionDeleteUser($twig, $db){
+    $user = new Utilisateur($db);
+    $userToDelete = $user->delete($_GET['idUser']);
+}
+
+function actionAddUser($twig, $db){
+    $user = new Utilisateur($db);
+    $userToAdd = $user->insert($_GET['email'], $_GET['mdp'],$_GET['nom'], $_GET['prenom'], 1, $_GET['idEntreprise']);
+}
+
+function actionGetEntreprise($twig, $db){
+    $entreprise = new Entreprise($db);
+    $entrepriseById = $entreprise->selectById($_GET['idEntreprise']);
+    header('Content-Type: application/json');
+    echo json_encode($entrepriseById);
+}
+
+function actionGetRole($twig, $db){
+
+}
 ?>

@@ -39,17 +39,23 @@
 				<div class="form-group">
 					<label class="font-weightbold required" for="chef">Chef de projet :</label>
 					<select name="chef" id="chef">
-                    {% for chef in chefs %}
-						<option value="{{ chef.id }}">{{ chef.prenom }}</option>
-                    {% endfor %}
+						{% for chef in chefs %}
+							<option value="{{ chef.id_utilisateur }}">{{ chef.prenom }}</option>
+						{% endfor %}
 					</select>
 				</div>
 				<br></br>
-
-			<div class="form-group mx-auto text-center">
-				<button type="submit" id="btAjoutProjet" name="btAjoutProjet" class="btn font-weightbold bg-success text-white mx-auto text-center">Ajouter</button>
+				{% for u in utilisateurs %}
+			<div class="form-group">
+				<label class="font-weightbold required" for="chef">{{u.prenom}}</label>
+				<input type="checkbox" name="utilsateurProjet[]" value="{{u.id_utilisateur}}"/>
 			</div>
+			{% endfor %}
+			<br></br>
 
+		<div class="form-group mx-auto text-center">
+			<button type="submit" id="btAjoutProjet" name="btAjoutProjet" class="btn font-weightbold bg-success text-white mx-auto text-center">Ajouter</button>
 		</div>
+
 	</div>
-</div>{% endif %}{% endblock %}
+</div></div>{% endif %}{% endblock %}

@@ -7,14 +7,18 @@ class Utilisateur{
     private $selectByEmail;
     private $select;
     private $selectByEntreprise;
+    private $selectByProjet;
+    private $delete;
 
     public function __construct($db){
         $this->db=$db;
-        $this->insert = $db->prepare("insert into utilisateur(email,mdp,nom,prenom,id_role, id_entreprise) values(:email,:mdp,:nom,:prenom,:role, :entreprise)");
+        $this->insert = $db->prepare("insert into utilisateur(email,mdp,nom,prenom,id_role, id_entreprise) values(:email,:mdp,:nom,:prenom,:role,:entreprise)");
         $this->connect = $db->prepare("select email, mdp, id_role, id_entreprise from utilisateur where email=:email");
         $this->selectByEmail = $db->prepare("select * from utilisateur where email=:email");
         $this->select = $db->prepare("select * from utilisateur");
-        $this->selectByEntreprise = $db->prepare("select * from utilisateur where id_entreprise=:id_entreprise");
+        $this->selectByEntreprise = $db->prepare("select u.* from utilisateur u where id_entreprise=:id_entreprise and id_role = 4");
+        $this->selectByProjet = $db->prepare("select distinct u.* from utilisateur u inner join projet_utilisateur pu on u.id_utilisateur = pu.id_utilisateur inner join projet p on pu.id_projet = p.id_projet and p.id_projet = :idProjet");
+        $this->delete = $db->prepare("DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur");
     }
 
     public function insert($email, $mdp, $nom, $prenom,$role, $entreprise) { // Étape 3
@@ -49,6 +53,15 @@ class Utilisateur{
         }
         return $this->select->fetchAll();
     }
+
+    public function selectByProjet($idProjet){
+        $this->selectByProjet->execute(array(':idProjet'=>$idProjet));
+        if ($this->selectByProjet->errorCode()!=0){
+            print_r($this->selectByProjet->errorInfo());
+        }
+        return $this->selectByProjet->fetchAll();
+    }
+
     public function selectByEntreprise($id_entreprise){
         $this->selectByEntreprise->execute(array(':id_entreprise'=>$id_entreprise));
         if ($this->selectByEntreprise->errorCode()!=0){
@@ -57,4 +70,11 @@ class Utilisateur{
         return $this->selectByEntreprise->fetchAll();
     }
 
+    public function delete($id_utilisateur){
+        $this->delete->execute(array(':id_utilisateur'=>$id_utilisateur));
+        if ($this->delete->errorCode()!=0){
+            print_r($this->delete->errorInfo());
+        }
+        return $this->delete->fetch();
+    }
 }

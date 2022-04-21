@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EntrepriseController!
+{% endblock %}
+
+{% block body %}
+
+{% if form.valide is defined %}
+	{% if form.valide == false %}
+
+		<div class="alert alert-danger h3 mb-3 font-weight-normal" role="alert">
+			{{ form.message }}
+		</div>
+
+	{% else %}
+
+		<div class="alert alert-success h3 mb-3 font-weight-normal" role="alert">
+			{{ form.message }}
+		</div>
+
+	{% endif %}
+{% else %}
+
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<h1 class="text-center text-secondary p-4">Ajouter un risque</h1>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-8 bg-primary p-4 m-0 text-white">
+
+
+				<form name="ajout_entreprise" method="post">
+
+					<div class="form-group">
+						<label class="font-weightbold required" for="proba">Probabilite</label>
+						<input type="number" id="proba" name="proba" required="required" class="form-control"/>
+					</div>
+					<br></br>
+					<div class="form-group">
+						<label class="font-weightbold required" for="severite">Sévérité</label>
+						<input type="number" id="severite" name="severite" required="required" class="form-control"/>
+					</div>
+					<br></br>
+					<div class="form-group">
+						<label class="font-weightbold required" for="cout">Cout de la reduction du risque</label>
+						<input type="number" id="cout" name="cout" required="required" class="form-control"/>
+					</div>
+					<br></br>
+					<div class="form-group">
+						<label class="font-weightbold required" for="detection">Moyen de detection</label>
+						<input type="text" id="detection" name="detection" required="required" class="form-control"/>
+					</div>
+					<br></br>
+					<div class="form-group">
+						<label class="font-weightbold required" for="correction">Mesure de correction</label>
+						<input type="text" id="correction" name="correction" required="required" class="form-control"/>
+					</div>
+					<br></br>
+				<div class="form-group">
+					<label class="font-weightbold required" for="chef">Type du risque</label>
+					<select name="type_risque" id="type_risque">
+						{% for r in type_risque %}
+							<option value="{{ r.id_type_risque }}">{{ r.libelle }}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<br></br>
+			
+		<div class="form-group mx-auto text-center">
+			<button type="submit" id="btAjoutRisque" name="btAjoutRisque" class="btn font-weightbold bg-success text-white mx-auto text-center">Ajouter</button>
+		</div>
+
+	</div>
+</div></div>{% endif %}{% endblock %}

@@ -36,12 +36,13 @@ function actionConnexion($twig,$db){
         $mdp = $_POST['mdp'];
         $utilisateur = new Utilisateur($db);
         $unUtilisateur = $utilisateur->connect($email);
+        var_dump($unUtilisateur);
         if ($unUtilisateur!=null){
             if(!password_verify($mdp,$unUtilisateur['mdp'])){
                 $form['valide'] = false;
                 $form['message'] = 'Login ou mot de passe incorrect';
             }
-            else{
+            else{  
                 $_SESSION['login'] = $email;
                 $_SESSION['role'] = $unUtilisateur['id_role'];
                 $_SESSION['entreprise'] = $unUtilisateur['id_entreprise'];

@@ -12,8 +12,15 @@ function getPage($db)
     $lesPages['ajoutProjet'] = "actionAjoutProjet;0";
     $lesPages['ajoutTache'] = "actionAjoutTache;0";
     $lesPages['listeProjets'] = "actionListeProjets;0";
+    $lesPages['listeTacheByProjet'] = "actionListeTacheByProjet;0";
+    $lesPages['listeTacheByUtilisateur'] = "actionListeTacheByUtilisateur;0";
     $lesPages['pert'] = "actionPert;0";
     $lesPages['abonnements'] = "actionAbonnements;0";
+    $lesPages['risque'] = "actionAjoutRisque;0";
+    $lesPages['anomalie'] = "actionAjoutAnomalie;0";
+    $lesPages['listeAnomalie'] = "actionListeAnomalie;0";
+    $lesPages['listeRisques'] = "actionListeRisques;0";
+
 
     /*****************
      Routing des API
@@ -25,8 +32,13 @@ function getPage($db)
     $lesPages['userByEmail'] = "actionUserByEmail;0";
     $lesPages['userByEntreprise'] = "actionUserByEntreprise;0";
     $lesPages['projetByUser'] = "actionProjetByUser;0";
+    $lesPages['projetByEntreprise'] = "actionProjetByEntreprise;0";
+    $lesPages['deleteUser'] = "actionDeleteUser;0";
+    $lesPages['addUser'] = "actionAddUser;0";
+    $lesPages['entrepriseById'] = "actionGetEntreprise;0";
+    $lesPages['roleById'] = "actionGetRole;0";
 
-   
+    
     if ($db != null) {
         if (isset($_GET['page'])) {
             $page = $_GET['page'];
