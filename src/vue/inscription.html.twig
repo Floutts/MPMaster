@@ -9,11 +9,6 @@
         <h1 class="h3 mb-3 font-weight-normal">Bienvenue  {{form.prenom}} {{ form.nom }}</h1>
         <h1 class="h3 mb-3 font-weight-normal">Vous utiliserez "{{ form.email }}" pour vous connecter</h1>
 
-        {% if form.role == 1 %}
-            <h1 class="h3 mb-3 font-weight-normal">Vous êtes administrateur du site</h1>
-        {% else %}
-            <h1 class="h3 mb-3 font-weight-normal">Vous êtes un Etudiant sur ce site </h1>
-        {% endif %}
         {% else %}
                 <h1 class="h3 mb-3 font-weight-normal">Echec de l'inscription</h1>
             <h1 class="h3 mb-3 font-weight-normal">Attention {{form.message}}</h1>
@@ -55,7 +50,7 @@
             <input type="password" id="confirmation" name="confirmation" required="required" class="form-control"/>
           </div>
           <br></br>
-          {% if session.role == 2 %}
+          {% if session.role <= 2 %}
           <div class="form-group">
             Chef de projet
             <label class="font-weight-bold required" for="role_oui">oui</label>
