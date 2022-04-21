@@ -5,11 +5,13 @@ class Pert{
     private $selectTachePreced;
     private $selectTaches;
     private $selectTachesPrecedByTache;
+    private $selectTachesSuivantesByTache;
 
     public function __construct($db){
         $this->db=$db;
         $this->selectTachePreced = $db->prepare("select * from tache_precedente");
         $this->selectTaches = $db->prepare("select * from tache");
+        $this->selectTachesSuivantesByTache = $db->prepare("select * from tache_precedente where id_tache_precedente = :id_tache ");
     }
 
     public function selectTachePreced() { 
@@ -28,6 +30,14 @@ class Pert{
                 return $this->selectTaches->fetchAll();
     }
 
+    public function selectTachesSuivantesByTache($id_tache) { 
+        $r = true;
+            $this->selectTachesSuivantesByTache->execute(array(":id_tache"=>$id_tache));
+            if ($this->selectTachesSuivantesByTache->errorCode()!=0){
+                print_r($this->selectTachesSuivantesByTache->errorInfo());}
+                return $this->selectTachesSuivantesByTache->fetchAll();
+    }
+
 
     public function selectTachesPrecedByTache($db,$id_tache,$not_in) { 
         $this->selectTachesPrecedByTache = $db->prepare('select * from tache_precedente where id_tache = '.$id_tache.' AND id_tache_precedente not in ('.$not_in.')');
@@ -37,6 +47,7 @@ class Pert{
                 print_r($this->selectTachesPrecedByTache->errorInfo());}
                 return $this->selectTachesPrecedByTache->fetchAll();
     }
+
 }
 
 

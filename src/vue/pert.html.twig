@@ -6,6 +6,7 @@
  <script src="https://unpkg.com/gojs@2.2.6/release/go.js"></script>
   <div id="allSampleContent" class="p-4 w-full">
     <script id="code">
+
     function init() {
 
       // Since 2.2 you can also author concise templates with method chaining instead of GraphObject.make
@@ -39,38 +40,33 @@
           $(go.Panel, "Table",
             { padding: 0.5 },
             $(go.RowColumnDefinition, { column: 1, separatorStroke: "black" }),
-            $(go.RowColumnDefinition, { column: 2, separatorStroke: "black" }),
-            $(go.RowColumnDefinition, { row: 1, separatorStroke: "black", background: "white", coversSeparators: true }),
+            $(go.RowColumnDefinition, { row: 0, separatorStroke: "black", background: "white", coversSeparators: true }),
+            $(go.RowColumnDefinition, { row: 1, separatorStroke: "black" }),
             $(go.RowColumnDefinition, { row: 2, separatorStroke: "black" }),
-            $(go.TextBlock, // earlyStart
-              new go.Binding("text", "earlyStart"),
-              { row: 0, column: 0, margin: 5, textAlign: "center" }),
-            $(go.TextBlock,
-              new go.Binding("text", "length"),
-              { row: 0, column: 1, margin: 5, textAlign: "center" }),
-            $(go.TextBlock,  // earlyFinish
-              new go.Binding("text", "",
-                d => (d.earlyStart + d.length).toFixed(2)),
-              { row: 0, column: 2, margin: 5, textAlign: "center" }),
+
 
             $(go.TextBlock,
               new go.Binding("text", "text"),
               {
-                row: 1, column: 0, columnSpan: 3, margin: 5,
+                row: 0, column: 0, columnSpan: 3, margin: 5,
                 textAlign: "center", font: "bold 14px sans-serif"
               }),
 
+              $(go.TextBlock, // earlyStart
+              new go.Binding("text", "duree_min"),
+              { row: 1, column: 0, margin: 5, textAlign: "center" }),
+
+            $(go.TextBlock,  // earlyFinish
+              new go.Binding("text", "duree_max"),
+              { row: 1, column: 1, margin: 5, textAlign: "center" }),
+
             $(go.TextBlock,  // lateStart
-              new go.Binding("text", "",
-                d => (d.lateFinish - d.length).toFixed(2)),
+              new go.Binding("text", "marge_totale"),
               { row: 2, column: 0, margin: 5, textAlign: "center" }),
-            $(go.TextBlock,  // slack
-              new go.Binding("text", "",
-                d => (d.lateFinish - (d.earlyStart + d.length)).toFixed(2)),
-              { row: 2, column: 1, margin: 5, textAlign: "center" }),
+
             $(go.TextBlock, // lateFinish
-              new go.Binding("text", "lateFinish"),
-              { row: 2, column: 2, margin: 5, textAlign: "center" })
+              new go.Binding("text", "marge_libre"),
+              { row: 2, column: 1, margin: 5, textAlign: "center" })
           )  // end Table Panel
         );  // end Node
 
@@ -108,7 +104,38 @@
         );
 
       // here's the data defining the graph
-      var nodeDataArray = [
+      var nodeDataArray = [{ key: 0, text: "Start", duree_min: 0, duree_max: 0, critical: true }]
+      var nbkeys = 1
+      var id_to_key = new Object()
+      {% for tache in taches %}
+        id_to_key["{{tache.id_tache}}"] = nbkeys
+        {% if tache.id_tache != "-1" %}      
+          nodeDataArray.push({ key: nbkeys, text: " {{tache.libelle}}", duree_min: {{tache.duree_min}}, duree_max: {{tache.duree_max}}, marge_totale: {{tache.marge_totale}}, marge_libre: {{tache.marge_libre}}, critical: {{tache.marge_totale == 0 ? "true" : "false"}} })
+        {% else %}
+        console.log("{{tache.marge_totale}}");
+          nodeDataArray.push({ key: nbkeys, text: "Finish", duree_min: {{tache.duree_min}}, duree_max: {{tache.duree_max}}, critical: true })
+        {% endif %}
+      nbkeys++
+      {% endfor %}
+      console.log(id_to_key);
+      var linkDataArray = []
+
+      {% for tache in taches %}
+      {% if tache.liste_taches_precedentes | length == 0%}
+        linkDataArray.push( { from:0, to: id_to_key["{{tache.id_tache }}"]})
+      {% else %}
+        {% for tache_precedente in tache.liste_taches_precedentes %}
+          linkDataArray.push( { from: id_to_key["{{tache_precedente}}"], to: id_to_key["{{tache.id_tache }}"]})
+        {% endfor %}
+      {% endif %}
+      {% endfor %}
+
+           console.log(linkDataArray);
+
+
+      /*var nodeDataArray =
+      
+      [
         { key: 1, text: "Start", length: 0, earlyStart: 0, lateFinish: 0, critical: true },
         { key: 2, text: "a", length: 4, earlyStart: 0, lateFinish: 4, critical: true },
         { key: 3, text: "b", length: 5.33, earlyStart: 0, lateFinish: 9.17, critical: false },
@@ -119,6 +146,7 @@
         { key: 8, text: "g", length: 5.17, earlyStart: 14.34, lateFinish: 19.51, critical: true },
         { key: 9, text: "Finish", length: 0, earlyStart: 19.51, lateFinish: 19.51, critical: true }
       ];
+
       var linkDataArray = [
         { from: 1, to: 2 },
         { from: 1, to: 4 },
@@ -130,7 +158,7 @@
         { from: 6, to: 8 },
         { from: 7, to: 9 },
         { from: 8, to: 9 }
-      ];
+      ];*/
       myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
 
       // create an unbound Part that acts as a "legend" for the diagram
@@ -139,31 +167,33 @@
           $(go.Shape, "Rectangle",  // the border
             { fill: bluefill }),
           $(go.Panel, "Table",
+            { padding: 0.5 },
             $(go.RowColumnDefinition, { column: 1, separatorStroke: "black" }),
-            $(go.RowColumnDefinition, { column: 2, separatorStroke: "black" }),
-            $(go.RowColumnDefinition, { row: 1, separatorStroke: "black", background: bluefill, coversSeparators: true }),
+            $(go.RowColumnDefinition, { row: 0, separatorStroke: "black", background: "white", coversSeparators: true }),
+            $(go.RowColumnDefinition, { row: 1, separatorStroke: "black" }),
             $(go.RowColumnDefinition, { row: 2, separatorStroke: "black" }),
-            $(go.TextBlock, "Early Start",
-              { row: 0, column: 0, margin: 5, textAlign: "center" }),
-            $(go.TextBlock, "Length",
-              { row: 0, column: 1, margin: 5, textAlign: "center" }),
-            $(go.TextBlock, "Early Finish",
-              { row: 0, column: 2, margin: 5, textAlign: "center" }),
 
-            $(go.TextBlock, "Activity Name",
+
+            $(go.TextBlock,"Nom de la tache",
               {
-                row: 1, column: 0, columnSpan: 3, margin: 5,
+                row: 0, column: 0, columnSpan: 3, margin: 5,
                 textAlign: "center", font: "bold 14px sans-serif"
               }),
 
-            $(go.TextBlock, "Late Start",
-              { row: 2, column: 0, margin: 5, textAlign: "center" }),
-            $(go.TextBlock, "Slack",
-              { row: 2, column: 1, margin: 5, textAlign: "center" }),
-            $(go.TextBlock, "Late Finish",
-              { row: 2, column: 2, margin: 5, textAlign: "center" })
+              $(go.TextBlock,"Date au plus tôt",
+              { row: 1, column: 0, margin: 15, textAlign: "center" }),
+
+            $(go.TextBlock,"Date au plus tard",
+              { row: 1, column: 1, margin: 15, textAlign: "center" }),
+
+            $(go.TextBlock,"Marge totale",
+              { row: 2, column: 0, margin: 15, textAlign: "center" }),
+
+            $(go.TextBlock,"Marge libre",
+              { row: 2, column: 1, margin: 15, textAlign: "center" })
           )  // end Table Panel
-        ));
+        )
+      );
     }
     window.addEventListener('DOMContentLoaded', init);
   </script>
