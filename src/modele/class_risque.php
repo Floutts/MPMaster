@@ -6,14 +6,15 @@ class Risque{
     private $selectRisqueByProjet;
     private $selectTypeRisque;
     private $delete;
-
+    private $deleteTypeRisque;
 
     public function __construct($db){
         $this->db=$db;
         $this->insert = $db->prepare("INSERT INTO projet_type_risque(id_projet,id_type_risque,probabilite,severite,cout_reduc_risque,moyen_detection,mesure_correction) values(:id_projet,:id_type_risque,:probabilite,:severite,:cout_reduc_risque,:moyen_detection,:mesure_correction)");
         $this->selectRisqueByProjet = $db->prepare("SELECT projet_type_risque.*, type_risque.libelle as libelleRisque, type_risque.id_classe_risque, classe_risque.libelle as libelleCRisque FROM projet_type_risque, type_risque, classe_risque where projet_type_risque.id_projet = :idProjet AND type_risque.id_type_risque = projet_type_risque.id_type_risque AND type_risque.id_classe_risque = classe_risque.id_classe_risque ");
-        $this->selectTypeRisque = $db->prepare("SELECT * FROM type_risque");
+        $this->selectTypeRisque = $db->prepare("SELECT type_risque.*, classe_risque.libelle as classLibelle FROM type_risque, classe_risque WHERE classe_risque.id_classe_risque = type_risque.id_classe_risque");
         $this->delete = $db->prepare("DELETE FROM projet_type_risque WHERE id_projet = :idProjet AND id_type_risque = :idRisque");
+        $this->deleteTypeRisque = $db->prepare("DELETE FROM type_risque WHERE id_type_risque = :idRisque");
     }
 
     public function insert($id_projet,$id_type_risque,$probabilite,$severite,$cout_reduc_risque,$moyen_detection,$mesure_correction) {
@@ -45,6 +46,15 @@ class Risque{
         $this->delete->execute(array(':idProjet'=>$idProjet, ':idRisque'=>$idRisque));
         if ($this->delete->errorCode()!=0){
             print_r($this->delete->errorInfo());
+            $r=false;
+        }
+        return $r;
+    }
+    public function deleteTypeRisque($idRisque){
+        $r = true;
+        $this->deleteTypeRisque->execute(array(':idRisque'=>$idRisque));
+        if ($this->deleteTypeRisque->errorCode()!=0){
+            print_r($this->deleteTypeRisque->errorInfo());
             $r=false;
         }
         return $r;

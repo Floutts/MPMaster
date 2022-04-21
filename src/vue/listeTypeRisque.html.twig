@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EntrepriseController!
+{% endblock %}
+
+{% block body %}
+
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<h1 class="text-center text-secondary p-4">Liste des risques</h1>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-8 bg-secondary p-4 m-0 text-white">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Id du risque</th>
+								<th scope="col">Classe de Risque</th>
+								<th scope="col">Libellé</th>
+							</tr>
+						</thead>
+						<tbody>
+                        {% for p in risques %}
+							<tr>
+								<th scope="row">{{p.id_type_risque}}</th>
+								<td>	
+                                   
+										{{p.classLibelle}} 
+									
+                                    </td>
+								<td>	
+                                   
+										{{p.libelle}} 
+									
+                                    </td>
+								<td>
+									<div class="btn-group btn-group-lg">
+										<a href="index.php?page=listeTypeRisque&idRisque={{p.id_type_risque}}">
+											<span class="material-icons">delete</span>
+										</a>
+									</div>
+								</td>
+							</tr>
+                            {% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+{% endblock %}

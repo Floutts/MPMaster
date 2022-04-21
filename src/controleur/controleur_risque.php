@@ -7,9 +7,18 @@ function actionListeRisques($twig, $db) {
         
     }
     $risques = $risque->selectRisqueByProjet($idProjet);
-    $form = array();
     echo $twig->render('risque.html.twig', array('risques'=>$risques, 'idProjet'=>$idProjet));
 }
+function actionListeTypeRisque($twig, $db) {
+    $risque = new Risque($db);
+    $risques = $risque->selectTypeRisque();
+    if(isset($_GET['idRisque'])){
+       $risque->deleteTypeRisque($_GET['idRisque']);
+        
+    }
+    echo $twig->render('listeTypeRisque.html.twig', array('risques'=>$risques));
+}
+
 
 function actionAjoutRisque($twig, $db) {
     $form = array();

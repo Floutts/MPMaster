@@ -3,16 +3,14 @@
 
 function actionPert($twig, $db) {
     $pert = new Pert($db);
-    $listeTachesCopie = $pert->selectTaches();
+    $idProjet = $_GET['idProjet'];
+    $listeTachesCopie = $pert->selectTaches($idProjet);
     $listeTaches = $listeTachesCopie;
-    $a=-1;
-    $i=0;
     $not_in = "0";
     $not_in_tmp = "";
     $tableNiveau = [];
     $tableTmpNiveau = [];
     $finalTable = array(); // [id_tache,libelle,duree,[id_tache_precedente1,id_tache_precedente2],[id_tache_suivante1,id_tache_suivante2],niveau,duree_min,duree_max,marge_libre,marge_totale,is_critique]
-    $niveau = 0;
     $id_tache_to_key = array();
 
     foreach($listeTaches as $key=>$tache){

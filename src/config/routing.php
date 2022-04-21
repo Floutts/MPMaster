@@ -20,6 +20,7 @@ function getPage($db)
     $lesPages['anomalie'] = "actionAjoutAnomalie;0";
     $lesPages['listeAnomalie'] = "actionListeAnomalie;0";
     $lesPages['listeRisques'] = "actionListeRisques;0";
+    $lesPages['listeTypeRisque'] = "actionListeTypeRisque;0";
 
 
     /*****************
