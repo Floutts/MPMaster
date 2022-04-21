@@ -11,6 +11,12 @@ function actionListeRisques($twig, $db) {
     echo $twig->render('risque.html.twig', array('risques'=>$risques, 'idProjet'=>$idProjet));
 }
 
+function actionRisqueByClasse($twig,$db){
+    $risque = new Risque($db);
+    echo json_encode($risque->selectRisqueByClasse($_GET['id_classe_risque']),JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    //json_encode();
+}
+
 function actionAjoutRisque($twig, $db) {
     $form = array();
     $idProjet = $_GET['idProjet'];
