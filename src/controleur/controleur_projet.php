@@ -3,11 +3,11 @@
 function actionAjoutProjet($twig, $db) {
     $form = array();
     $idEntreprise = isset($_SESSION['entreprise'])? $_SESSION['entreprise'] : false;
-    var_dump($_SESSION);
     $projet = new Projet($db);
     $utilisateur = new Utilisateur($db);
     $listeUtilisateur = $utilisateur->selectByEntreprise($idEntreprise);
     $chef = $projet->selectChefByEntreprise($idEntreprise);
+    var_dump($idEntreprise);
     if(isset($_POST['btAjoutProjet'])){
         $exec = $projet->insert($_POST['libelle'], intval($idEntreprise), intval($_POST['chef']));
         $idProjet = $db->lastinsertid();
