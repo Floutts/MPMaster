@@ -104,7 +104,7 @@
         );
 
       // here's the data defining the graph
-      var nodeDataArray = [{ key: 0, text: "Start", duree_min: 0, duree_max: 0, critical: true }]
+      var nodeDataArray = [{ key: 0, loc: "100 100", text: "Start", duree_min: 0, duree_max: 0, critical: true }]
       var nbkeys = 1
       var id_to_key = new Object()
       {% for tache in taches %}
@@ -121,7 +121,7 @@
       var linkDataArray = []
 
       {% for tache in taches %}
-      {% if tache.liste_taches_precedentes | length == 0%}
+      {% if tache.liste_taches_precedentes | length == 0 %}
         linkDataArray.push( { from:0, to: id_to_key["{{tache.id_tache }}"]})
       {% else %}
         {% for tache_precedente in tache.liste_taches_precedentes %}

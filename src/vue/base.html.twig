@@ -18,7 +18,7 @@
 	<body>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="">MPMaster</a>
+				<a class="navbar-brand" href="index.php?page=accueil">MPMaster</a>
 				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
@@ -26,7 +26,7 @@
 				<div class="collapse navbar-collapse" id="navbarColor01">
 					<ul class="navbar-nav me-auto">
 						<li class="nav-item">
-							<a class="nav-link active" href="">Accueil
+							<a class="nav-link active" href="index.php?page=accueil">Accueil
 								<span class="visually-hidden">(current)</span>
 							</a>
 						</li>
@@ -40,7 +40,7 @@
 								<span class="visually-hidden">(current)</span>
 							</li>
 						{% else %}
-							{% if session.role == 2 %}
+							{% if session.role <= 2 %}
 								<li class="nav-item dropdown">
 									<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Gestion</a>
 									<div class="dropdown-menu">
@@ -48,12 +48,14 @@
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item" href="index.php?page=inscription">Ajouter un participant</a>
 									</div>
-								{% elseif session.role == 3 %}
+								{% endif %}
+								{% if session.role <= 3 %}
 									<li class="nav-item">
 										<a class="nav-link" href="index.php?page=listeProjets">Voir mes projets</a>
 										<span class="visually-hidden">(current)</span>
 									</li>
-								{% elseif session.role == 4 %}
+								{% endif %}
+								{% if session.role <= 4 %}
 									<li class="nav-item">
 										<a class="nav-link" href="index.php?page=listeTacheByUtilisateur">Taches en cours</a>
 										<span class="visually-hidden">(current)</span>

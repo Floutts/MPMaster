@@ -38,7 +38,7 @@ It also works with mappings:
     {% for k, v in sizes|filter(v => v > 38) -%}
         {{ k }} = {{ v }}
     {% endfor %}
-    {# output l = 40 xl = 42 #}
+    {# output l 0 xl 2 #}
 
 The arrow function also receives the key as a second argument:
 
