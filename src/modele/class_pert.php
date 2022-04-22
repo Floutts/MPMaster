@@ -10,7 +10,7 @@ class Pert{
     public function __construct($db){
         $this->db=$db;
         $this->selectTachePreced = $db->prepare("select * from tache_precedente");
-        $this->selectTaches = $db->prepare("select * from tache");
+        $this->selectTaches = $db->prepare("SELECT * FROM tache WHERE projet_id = :idProjet");
         $this->selectTachesSuivantesByTache = $db->prepare("select * from tache_precedente where id_tache_precedente = :id_tache ");
     }
 
@@ -22,9 +22,9 @@ class Pert{
                 return $this->selectTachePreced->fetchAll();
     }
     
-    public function selectTaches() { 
+    public function selectTaches($idprojet) { 
         $r = true;
-            $this->selectTaches->execute();
+            $this->selectTaches->execute(array(":idProjet"=>$idprojet));
             if ($this->selectTaches->errorCode()!=0){
                 print_r($this->selectTaches->errorInfo());}
                 return $this->selectTaches->fetchAll();
