@@ -36,11 +36,18 @@ function actionListeTypeRisque($twig, $db) {
 }
 
 
+function actionRisqueByClasse($twig,$db){
+    $risque = new Risque($db);
+    echo json_encode($risque->selectRisqueByClasse($_GET['id_classe_risque']),JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    //json_encode();
+}
+
 function actionAjoutRisque($twig, $db) {
     $form = array();
     $idProjet = $_GET['idProjet'];
     $risque = new Risque($db);
     $listeTypeRisque = $risque->selectTypeRisque();
+    $listeClasseRisque = $risque->selectClasseRisque();
     if(isset($_POST['btAjoutRisque'])){
         var_dump($_POST);
         $id_type_risque = $_POST['type_risque'];

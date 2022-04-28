@@ -140,60 +140,16 @@ function actionPert($twig, $db) {
     }
 
     array_push($finalTable,$tache_fin);
-    var_dump($finalTable);
-
-
-
-
-    // while($a <= count($listeTaches)-1){
-    //     $a++;
-    //     $i =-1;
-       
-    //     while ($i <= count($listeTachePreced)-1){
-    //         $i++;
-           
-    //         if($listeTaches[$a]["id_tache"] == $listeTachePreced[$i]["id_tache"]){
-    //             break;
-    //         }
-    //         elseif($i == count($listeTachePreced)-1){
-    //             $tableTmpNiveau[] = $listeTaches[$a]["id_tache"];
-    //             unset($listeTaches[$a]);
-    //             break;
-    //         }
-
-    //         if( count($listeTachePreced)==0){
-    //             $tableTmpNiveau[] = $listeTaches[$a]["id_tache"];
-                
-    //         }
-            
-    //     }
-       
-    //     if($a == count($listeTaches)-1){
-    //         if(count($listeTachePreced)>0){
-    //             $a = -1;
-                
-    //         }
-    //         $tableNiveau[] = $tableTmpNiveau;
-            
-    //         for($t = 0; $t<=count($tableTmpNiveau)-1; $t++){
-                
-    //             for($u = 0; $u<=count($listeTachePreced); $u++){
-                    
-    //                 if($tableTmpNiveau[$t]["id_tache"] == $listeTachePreced[$u]["id_tache_precedente"]){      
-                        
-    //                    unset($listeTachePreced[$u]);
-                       
-    //                 }
-    //             }
-                
-    //         }      
-    //         array_diff($tableTmpNiveau,$tableTmpNiveau);     
-    //     }
-        
-    // }
-    // var_dump($tableNiveau);
-        
-    echo $twig->render('pert.html.twig', array('taches'=>$finalTable));
+    if(isset($_GET['api'])){
+        $finalTableAPI = [];
+        foreach($finalTable as $tache){
+            array_push($finalTableAPI,$tache);
+        }
+        echo json_encode($finalTableAPI);
+    }else{
+        var_dump($finalTable);
+        echo $twig->render('pert.html.twig', array('taches'=>$finalTable));
+    }
 }
 
 

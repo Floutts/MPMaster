@@ -57,11 +57,17 @@
 					</div>
 					<br></br>
 				<div class="form-group">
+				<label class="font-weightbold required" for="chef">Classe du risque</label>
+				<select name="classe_risque" id="classe_risque">
+					{% for r in classe_risque %}
+						<option value="{{ r.id_classe_risque }}">{{ r.libelle }}</option>
+					{% endfor %}
+				</select>
+				</div>
+				<div class="form-group">
 					<label class="font-weightbold required" for="chef">Type du risque</label>
 					<select name="type_risque" id="type_risque">
-						{% for r in type_risque %}
-							<option value="{{ r.id_type_risque }}">{{ r.libelle }}</option>
-						{% endfor %}
+						<option value="">- Type de risque -</option>
 					</select>
 				</div>
 				<br></br>
@@ -71,4 +77,24 @@
 		</div>
 
 	</div>
-</div></div>{% endif %}{% endblock %}
+</div></div>
+<script>
+function majType(id_classe_risque){
+    $.ajax({
+        type: "POST",
+        url: "index.php?page=risqueByClasse&id_classe_risque=1",
+        success : function(text){
+            console.log(text)
+        },
+		error: function (xhr, ajaxOptions, thrownError) {
+			alert(chr.responseText); //Ce code affichera le message d'erreur, ici Message d'erreur.
+		} 
+    });
+}
+
+$('#').change(function(){
+	majType
+})
+
+</script>
+{% endif %}{% endblock %}

@@ -29,7 +29,7 @@ function getPage($db)
 
     $lesPages['allUsers'] = "actionAllUsers;0";
     $lesPages['inscriptionEntreprise'] = "actioninscriptionEntreprise;0";
-
+    $lesPages['risqueByClasse'] = "actionRisqueByClasse;0";
     $lesPages['userByEmail'] = "actionUserByEmail;0";
     $lesPages['userByEntreprise'] = "actionUserByEntreprise;0";
     $lesPages['projetByUser'] = "actionProjetByUser;0";
