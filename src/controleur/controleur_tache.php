@@ -34,6 +34,10 @@ function actionAjoutTache($twig, $db) {
 function actionListeTacheByUtilisateur($twig, $db) {
     $form = array();
     $tache = new Tache($db);
+    if(isset($_GET['idTache'])){
+        $tache->deleteTache($_GET['idTache']);
+         
+     }
     $utilisateur = new Utilisateur($db);
     $unUtilisateur = $utilisateur->selectByEmail($_SESSION['login']);
     $listeTaches = $tache->selectTachesByUser($unUtilisateur['id_utilisateur']);
@@ -45,9 +49,13 @@ function actionListeTacheByProjet($twig, $db) {
     $form = array();
     $idProjet = $_GET['idProjet'];
     $tache = new Tache($db);
+    if(isset($_GET['idTache'])){
+        $tache->deleteTache($_GET['idTache']);
+         
+     }
     $listeTaches = $tache->selectTachesByProjet($idProjet);
     var_dump($idProjet);
-    echo $twig->render('listeTachesProjet.html.twig', array('form'=>$form,'taches'=>$listeTaches));
+    echo $twig->render('listeTachesProjet.html.twig', array('form'=>$form,'taches'=>$listeTaches, 'idProjet' => $idProjet));
 }
 
 

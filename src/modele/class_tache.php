@@ -6,13 +6,15 @@ class Tache{
     private $insertUtilisateurInTache;
     private $selectTachesByUser;
     private $selectTachesByProjet;
+    private $deleteTache;
 
     public function __construct($db){
         $this->db=$db;
+        $this->deleteTache = $db->prepare("DELETE FROM tache WHERE id_tache = :idTache");
         $this->insert = $db->prepare("insert into tache(projet_id,libelle,duree) values(:projet,:libelle,:duree)");
         $this->insertUtilisateurInTache = $db->prepare("insert into tache_utilisateur(id_utilisateur, id_tache) values(:id_utilisateur, :id_tache)");
-        $this->selectTachesByUser = $db->prepare("select t.libelle from tache t inner join tache_utilisateur tu on t.id_tache = tu.id_tache where tu.id_utilisateur=:idUtilisateur");
-        $this->selectTachesByProjet = $db->prepare("select t.libelle from tache t where t.projet_id=:idProjet");
+        $this->selectTachesByUser = $db->prepare("select * from tache t inner join tache_utilisateur tu on t.id_tache = tu.id_tache where tu.id_utilisateur=:idUtilisateur");
+        $this->selectTachesByProjet = $db->prepare("select * from tache t where t.projet_id=:idProjet");
     }
 
     public function insert($projet,$libelle,$duree) { // Étape 3
@@ -48,6 +50,14 @@ class Tache{
         }
         return $this->selectTachesByProjet->fetchAll();
     }
-
+    public function deleteTache($idTache){
+        $r = true;
+        $this->deleteTache->execute(array(':idTache'=>$idTache));
+        if ($this->deleteTache->errorCode()!=0){
+            print_r($this->deleteTache->errorInfo());
+            $r=false;
+        }
+        return $r;
+    }
 
 }
