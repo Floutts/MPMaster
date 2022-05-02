@@ -3,11 +3,13 @@
 function actionAjoutTache($twig, $db) {
     $form = array();
     $projet = new Projet($db);
+    $tache = new Tache($db);
+    $listeTacheProjet = $tache->selectAll($_GET['idProjet']);
     $utilisateur = new Utilisateur($db);
     $unUtilisateur = $utilisateur->selectByEmail($_SESSION['login']);
     $UtilisateursByProjet = $utilisateur->selectByProjet($_GET['idProjet']);
     if(isset($_POST['btAjoutTache'])){
-        $tache = new Tache($db);
+        
         $exec = $tache->insert($_GET['idProjet'],$_POST['libelle'], $_POST['duree']);
         $idTache = $db->lastinsertid();
 
@@ -16,10 +18,15 @@ function actionAjoutTache($twig, $db) {
                 $utilisateurTache = $_POST['utilsateurTache'];
                 foreach($utilisateurTache as $user){
                    $tache->insertUtilisateurInTache(floatval($user), $idTache);
+                   
                 }
+                
             }else{
                 $utilisateurProjet = array();
             }
+            if($_POST['tachePreced'] != 'Aucune'){
+                $lastTacheProjet = $tache->selectLastTache($_GET['idProjet']);
+                $tache->insertTachePrecedente($lastTacheProjet['id_tache'], $_POST['tachePreced']);}
             $form['valide'] = true;
             $form['message'] = "Tache ajoutée";
         }else{
@@ -28,7 +35,7 @@ function actionAjoutTache($twig, $db) {
         }
     }
 
-    echo $twig->render('ajoutTache.html.twig', array('form'=>$form, 'utilisateurs'=>$UtilisateursByProjet));
+    echo $twig->render('ajoutTache.html.twig', array('form'=>$form, 'utilisateurs'=>$UtilisateursByProjet, "listeTacheProjet"=>$listeTacheProjet));
 }
 
 function actionListeTacheByUtilisateur($twig, $db) {
