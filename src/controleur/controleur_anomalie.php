@@ -23,13 +23,11 @@ function actionAjoutAnomalie($twig, $db) {
         }
     }
 
-    echo $twig->render('anomalie.html.twig', array('form'=>$form, 'anomalies'=>$lesAnomalies));
+    $nbOuvert = $anomalie->selectByEtat('1',$idProjet)['nb'];
+    $nbCorrige = $anomalie->selectByEtat('2',$idProjet)['nb'];
+    $nbNonReproduit = $anomalie->selectByEtat('3',$idProjet)['nb'];
+    $nbFerme = $anomalie->selectByEtat('4',$idProjet)['nb'];
+
+    echo $twig->render('anomalie.html.twig', array('form'=>$form, 'anomalies'=>$lesAnomalies, 'nbOuvert' => $nbOuvert, 'nbCorrige' => $nbCorrige, 'nbNonReproduit' => $nbNonReproduit, 'nbFerme' => $nbFerme));
 }
 
-function actionGraphAnomalie($twig, $db) {
-    $form = array();
-    $anomalie = new Anomalie($db);
-    $idProjet = $_GET['idProjet'];
-    $anomalie = $anomalie->selectAnomalieByProjet($idProjet);
-    echo $twig->render('grapiqueAnomalie.html.twig');
-}

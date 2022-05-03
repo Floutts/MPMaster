@@ -5,12 +5,14 @@ class Anomalie{
     private $insert;
     private $selectNumberAnomalieByProjet;
     private $selectAnomalieByProjet;
+    private $selectByEtat;
 
     public function __construct($db){
         $this->db=$db;
         $this->insert = $db->prepare("INSERT INTO anomalie(id_projet,num_anomalie,emplacement,etat,scenario,date_anomalie,auteur) values(:id_projet,:num_anomalie,:emplacement,:etat,:scenario,:date_anomalie,:auteur)");
         $this->selectNumberAnomalieByProjet = $db->prepare("SELECT count(*) as nbAnomalie FROM anomalie WHERE id_projet=:id_projet");
         $this->selectAnomalieByProjet = $db->prepare("SELECT * FROM anomalie WHERE id_projet=:id_projet");
+        $this->selectByEtat = $db->prepare("SELECT COUNT(*) as nb FROM anomalie WHERE etat = :num_etat AND id_projet = :id_projet");
     }
     
     public function insert($id_projet,$num_anomalie,$emplacement,$etat,$scenario,$date_anomalie,$auteur) {
@@ -29,6 +31,14 @@ class Anomalie{
             print_r($this->selectNumberAnomalieByProjet->errorInfo());
         }
         return $this->selectNumberAnomalieByProjet->fetch();
+    }
+
+    public function selectByEtat($num_etat,$id_projet){
+        $this->selectByEtat->execute(array(':num_etat'=>$num_etat,":id_projet"=>$id_projet));
+        if ($this->selectByEtat->errorCode()!=0){
+            print_r($this->selectByEtat->errorInfo());
+        }
+        return $this->selectByEtat->fetch();
     }
 
     public function selectAnomalieByProjet($id_projet){
