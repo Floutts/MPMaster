@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="fr">
 	<head>
+		{% block head %}
+		
+		{% endblock %}
 		<!-- Required meta tags -->
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -52,15 +55,9 @@
 								</li>
 						
 							{% endif %}
-							{% if session.role <= 3 %}
-								<li class="nav-item">
-									<a class="nav-link" href="index.php?page=listeProjets">Voir mes projets</a>
-									<span class="visually-hidden">(current)</span>
-								</li>
-							{% endif %}
 							{% if session.role <= 4 %}
 								<li class="nav-item">
-									<a class="nav-link" href="index.php?page=listeTacheByUtilisateur">Taches en cours</a>
+									<a class="nav-link" href="index.php?page=listeProjets">Voir mes projets</a>
 									<span class="visually-hidden">(current)</span>
 								</li>
 							{% endif %}

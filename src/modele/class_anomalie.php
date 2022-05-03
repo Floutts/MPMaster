@@ -6,6 +6,7 @@ class Anomalie{
     private $selectNumberAnomalieByProjet;
     private $selectAnomalieByProjet;
     private $modifyStatut;
+    private $selectByEtat;
 
     public function __construct($db){
         $this->db=$db;
@@ -13,7 +14,7 @@ class Anomalie{
         $this->selectNumberAnomalieByProjet = $db->prepare("SELECT count(*) as nbAnomalie FROM anomalie WHERE id_projet=:id_projet");
         $this->selectAnomalieByProjet = $db->prepare("SELECT * FROM anomalie WHERE id_projet=:id_projet");
         $this->modifyStatut = $db->prepare("UPDATE anomalie SET etat = :statut WHERE id = :id");
-        
+        $this->selectByEtat = $db->prepare("SELECT COUNT(*) as nb FROM anomalie WHERE etat = :num_etat AND id_projet = :id_projet");
     }
     
     public function modifyStatut($id, $statut) {
@@ -40,6 +41,14 @@ class Anomalie{
             print_r($this->selectNumberAnomalieByProjet->errorInfo());
         }
         return $this->selectNumberAnomalieByProjet->fetch();
+    }
+
+    public function selectByEtat($num_etat,$id_projet){
+        $this->selectByEtat->execute(array(':num_etat'=>$num_etat,":id_projet"=>$id_projet));
+        if ($this->selectByEtat->errorCode()!=0){
+            print_r($this->selectByEtat->errorInfo());
+        }
+        return $this->selectByEtat->fetch();
     }
 
     public function selectAnomalieByProjet($id_projet){
