@@ -45,6 +45,7 @@
 		<div class="form-group mx-auto text-center">
 			<button type="submit" id="btAjoutAnomalie" name="btAjoutAnomalie" class="btn font-weightbold bg-success text-white mx-auto text-center">Ajouter</button>
 		</div>
+		</form>
 
 	</div>
 	<div class="container-fluid">
@@ -88,7 +89,22 @@
 								<td>
 									{{a.auteur}}
 								</td>
+								<td>
+								<form name="modifierAnomalie" method="post">
+								<input type="hidden" name="id" value="{{a.id}}"></input>
+										<select name="statut" id="statut">
+											<option value="1">Ouvert</option>
+											<option value="2">Corrigé</option>
+											<option value="3">Non reproduit</option>
+											<option value="4">Fermé</option>
+										</select>
+										<div class="form-group mx-auto text-center">
+											<button type="submit" id="btModifierAnomalie" name="btModifierAnomalie" class="btn font-weightbold bg-success text-white mx-auto text-center">Modifier</button>
+										</div>
+        						</form>
+								</td>
 							</tr>
+
 						{% endfor %}
 					</tbody>
 				</table>

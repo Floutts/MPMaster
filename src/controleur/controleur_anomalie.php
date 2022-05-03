@@ -16,12 +16,25 @@ function actionAjoutAnomalie($twig, $db) {
         $exec = $anomalie->insert($idProjet,$num_anomalie,$emplacement,1,$scenario,$date_anomalie,$unUtilisateur['id_utilisateur']);
         if($exec){
             $form['valide'] = true;
-            $form['message'] = "Risque ajouté";
+            $form['message'] = "Anomalie ajoutée";
         }else{
             $form['valide'] = false;
-            $form['message'] = "Erreur d'ajout du risque";
+            $form['message'] = "Erreur d'ajout de l'anomalie";
         }
     }
+    if(isset($_POST['btModifierAnomalie'])){
+        $statut = $_POST['statut'];
+        $id = $_POST['id'];
+        $exec = $anomalie->modifyStatut( $id,$statut);
+        if($exec){
+            $form['valide'] = true;
+            $form['message'] = "Statut anomalie mis à jour";
+        }else{
+            $form['valide'] = false;
+            $form['message'] = "Erreur statut anomalie";
+        }
+    }
+
 
     echo $twig->render('anomalie.html.twig', array('form'=>$form, 'anomalies'=>$lesAnomalies));
 }
