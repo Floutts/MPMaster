@@ -46,5 +46,26 @@
 					</table>
 				</div>
 			</div>
+
+			<form name="btAjoutTypeRisque" method="post">
+					<div class="form-group">
+						<label class="font-weightbold required" for="detection">Libelle</label>
+						<input type="text" id="libelle" name="libelle" required="required" class="form-control"/>
+					</div>
+					<br></br>
+				<div class="form-group">
+					<label class="font-weightbold required" for="chef">Classe du risque</label>
+					<select name="classe_risque" id="classe_risque">
+						{% for r in classeType %}
+							<option value="{{r.id_classe_risque}}">{{r.libelle}}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<br></br>
+			
+		<div class="form-group mx-auto text-center">
+			<button type="submit" id="btAjoutTypeRisque" name="btAjoutTypeRisque" class="btn font-weightbold bg-success text-white mx-auto text-center">Ajouter</button>
+		</div>
+		</form>
 		</div>
 {% endblock %}

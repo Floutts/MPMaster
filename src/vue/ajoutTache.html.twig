@@ -42,6 +42,17 @@
 			</div>
 			{% endfor %}
 			<br></br>
+			
+			<div class="form-group">
+					<label class="font-weightbold required" for="chef">Tâche précédente</label>
+					<select name="tachePreced" id="tachePreced">
+						<option value="Aucune">Aucune</option>
+						{% for t in listeTacheProjet %}
+							<option value="{{t.id_tache}}">{{t.libelle}}</option>
+						{% endfor %}
+					</select>
+				</div>
+			
 		<div class="form-group mx-auto text-center">
 			<button type="submit" id="btAjoutProjet" name="btAjoutTache" class="btn font-weightbold bg-success text-white mx-auto text-center">Ajouter</button>
 		</div>
