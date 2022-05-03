@@ -44,7 +44,6 @@ function actionAjoutRisque($twig, $db) {
     $listeTypeRisque = $risque->selectTypeRisque();
     $listeClasseRisque = $risque->selectClasseRisque();
     if(isset($_POST['btAjoutRisque'])){
-        var_dump($_POST);
         $id_type_risque = $_POST['type_risque'];
         $probabilite = $_POST['proba'];
         $severite = $_POST['severite'];
@@ -60,8 +59,7 @@ function actionAjoutRisque($twig, $db) {
             $form['message'] = "Erreur d'ajout du risque";
         }
     }
-    echo $twig->render('risque.html.twig', array('form'=>$form, 'type_risque'=>$listeTypeRisque, 'risques'=>$risques, 'idProjet'=>$idProjet));
+    echo $twig->render('risque.html.twig', array('form'=>$form, 'classe_risque'=>$listeClasseRisque, 'type_risque'=>$listeTypeRisque, 'risques'=>$risques, 'idProjet'=>$idProjet));
 }
-
 
 ?>
