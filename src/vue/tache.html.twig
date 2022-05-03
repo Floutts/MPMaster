@@ -22,6 +22,7 @@
 		<div class="row justify-content-center">
 			<h1 class="text-center text-secondary p-4">Gestion des taches</h1>
 		</div>
+		{% if session.role <= 3 %}
 		<div class="row justify-content-center">
 			<div class="col-8 bg-primary p-4 m-0 text-white">
 				<form name="ajout_tache" method="post">
@@ -58,7 +59,9 @@
 		</div>
 
 	</div>
-</div></div>
+</div>
+{% endif %}
+</div>
 		<div class="container-fluid">
 
 			<div class="row justify-content-center">

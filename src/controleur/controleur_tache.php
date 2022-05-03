@@ -12,7 +12,11 @@ function actionAjoutTache($twig, $db) {
     if(isset($_GET['idTache'])){
         $tache->deleteTache($_GET['idTache']);
      }
-    $listeTaches = $tache->selectTachesByProjet($idProjet);
+    if($unUtilisateur['id_role'] == 4){
+        $listeTaches = $tache->selectTachesByUser($unUtilisateur['id_utilisateur']);
+    }else{
+        $listeTaches = $tache->selectTachesByProjet($idProjet);
+    }
     if(isset($_POST['btAjoutTache'])){
         
         $exec = $tache->insert($_GET['idProjet'],$_POST['libelle'], $_POST['duree']);

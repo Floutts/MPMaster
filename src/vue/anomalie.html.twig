@@ -47,6 +47,7 @@
 		</div>
 
 	</div>
+	{% if session.role <=3 %}
 	<div class="container-fluid">
 		<div class="row justify-content-center">
 			<div class="col-8 bg-secondary p-4 m-0 text-white">
@@ -100,5 +101,6 @@
 		</div>
 	</div>
 </div>
+{% endif %}
 
 </div></div>{% endif %}{% endblock %}

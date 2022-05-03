@@ -41,28 +41,22 @@
                         {% for p in projets %}
 							<tr>
 								<th scope="row">{{p.libelle}}</th>
+								
 								<td>	
                                     <div class="btn-group btn-group-lg">
 										<a href="index.php?page=pert&idProjet={{p.id_projet}}">
-										 	voir le MPM
-										</a>
-									</div>
-                                    </td>
-								<td>
-								<td>	
-                                    <div class="btn-group btn-group-lg">
-										<a href="index.php?page=listeTacheByProjet&idProjet={{p.id_projet}}">
-											<span class="material-icons">reorder</span>
+										 	<span class="material-icons">visibility</span>
 										</a>
 									</div>
                                     </td>
 								<td>
 									<div class="btn-group btn-group-lg">
 										<a href="index.php?page=ajoutTache&idProjet={{p.id_projet}}">
-											<span class="material-icons">add</span>
+											<span class="material-icons">reorder</span>
 										</a>
 									</div>
 								</td>
+								{% if session.role <= 3 %}
                                 <td>
 									<div class="btn-group btn-group-lg">
 										<a href="index.php?page=risque&idProjet={{p.id_projet}}">
@@ -70,17 +64,11 @@
 										</a>
 									</div>
 								</td>
+								{% endif %}
 								<td>
 									<div class="btn-group btn-group-lg">
 										<a href="index.php?page=anomalie&idProjet={{p.id_projet}}">
-											anomalie
-										</a>
-									</div>
-								</td>
-								<td>
-									<div class="btn-group btn-group-lg">
-										<a href="index.php?page=listeAnomalie&idProjet={{p.id_projet}}">
-											liste anomalie
+											<span class="material-icons">notification_important</span>
 										</a>
 									</div>
 								</td>

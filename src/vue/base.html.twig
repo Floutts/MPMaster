@@ -52,15 +52,9 @@
 								</li>
 						
 							{% endif %}
-							{% if session.role <= 3 %}
-								<li class="nav-item">
-									<a class="nav-link" href="index.php?page=listeProjets">Voir mes projets</a>
-									<span class="visually-hidden">(current)</span>
-								</li>
-							{% endif %}
 							{% if session.role <= 4 %}
 								<li class="nav-item">
-									<a class="nav-link" href="index.php?page=listeTacheByUtilisateur">Taches en cours</a>
+									<a class="nav-link" href="index.php?page=listeProjets">Voir mes projets</a>
 									<span class="visually-hidden">(current)</span>
 								</li>
 							{% endif %}
