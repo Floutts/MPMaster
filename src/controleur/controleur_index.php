@@ -60,6 +60,10 @@ function actionConnexion($twig,$db){
 
 function actionInscription($twig,$db){
     $form = array();
+    $utilisateur = new Utilisateur($db);
+    if(isset($_GET['idEntreprise'])){
+        $form['parapage'] = 1;
+        }
     if (isset($_POST['btInscrire'])){
         //$nbUnique = uniqid();
         $email = $_POST['email'];
@@ -67,6 +71,7 @@ function actionInscription($twig,$db){
         $prenom = $_POST['prenom'];
         $mdp = $_POST['password'];
         $confirmation =$_POST['confirmation'];
+        $unUtilisateur = $utilisateur->selectByEmail($email);
         if(isset($_POST['role'])){
             if($_POST['role']){
                 $role = 3;
@@ -83,12 +88,17 @@ function actionInscription($twig,$db){
             $form['message'] = 'Les mots de passe sont différents';
         }
         else{
-            $utilisateur = new Utilisateur($db);
-            $exec = $utilisateur->insert($email, password_hash($mdp,PASSWORD_DEFAULT),$nom, $prenom, $role, $entreprise);
-            if (!$exec){
+            if($unUtilisateur == false){
+                $exec = $utilisateur->insert($email, password_hash($mdp,PASSWORD_DEFAULT),$nom, $prenom, $role, $entreprise);
+                if (!$exec){
+                    $form['valide'] = false;
+                    $form['message'] = 'Problème d\'insertion dans la table utilisateur ';
+                }
+            }else{
                 $form['valide'] = false;
-                $form['message'] = 'Problème d\'insertion dans la table utilisateur ';
+                $form['message'] = 'Utilisateur déjà inscrit ';
             }
+          
 
         }
         $form['email'] = $email;
@@ -98,5 +108,15 @@ function actionInscription($twig,$db){
     echo $twig->render('inscription.html.twig',array('form'=>$form));
 }
 
+
+function actionListeUtilisateur($twig, $db) {
+    $form = array();
+    $utilisateur = new Utilisateur($db);
+    $listeUtilisateur = $utilisateur->selectAllByEntreprise($_SESSION['entreprise']);
+    if(isset($_GET['idUtilisateur'])){
+        $utilisateur->delete($_GET['idUtilisateur']);
+    }
+    echo $twig->render('listeUtilisateurs.html.twig', array('form'=>$form, 'utilisateurs'=>$listeUtilisateur));
+}
 
 

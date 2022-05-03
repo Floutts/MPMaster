@@ -2,6 +2,7 @@
 
 
 function actionPert($twig, $db) {
+    $form = array();
     $pert = new Pert($db);
     $idProjet = $_GET['idProjet'];
     $listeTachesCopie = $pert->selectTaches($idProjet);
@@ -13,6 +14,12 @@ function actionPert($twig, $db) {
     $finalTable = array(); // [id_tache,libelle,duree,[id_tache_precedente1,id_tache_precedente2],[id_tache_suivante1,id_tache_suivante2],niveau,duree_min,duree_max,marge_libre,marge_totale,is_critique]
     $id_tache_to_key = array();
 
+    if(sizeof($listeTachesCopie) == 0){
+        $form['tache'] = false;
+    }
+    else{
+
+    
     foreach($listeTaches as $key=>$tache){
         $id_tache_to_key[$tache['id_tache']] = $key;
         $listeTachePreced = [];
@@ -141,7 +148,7 @@ function actionPert($twig, $db) {
 
     array_push($finalTable,$tache_fin);
     var_dump($finalTable);
-
+    }
 
 
 

@@ -7,6 +7,7 @@ class Utilisateur{
     private $selectByEmail;
     private $select;
     private $selectByEntreprise;
+    private $selectAllByEntreprise;
     private $selectByProjet;
     private $delete;
 
@@ -17,6 +18,7 @@ class Utilisateur{
         $this->selectByEmail = $db->prepare("select * from utilisateur where email=:email");
         $this->select = $db->prepare("select * from utilisateur");
         $this->selectByEntreprise = $db->prepare("select u.* from utilisateur u where id_entreprise=:id_entreprise and id_role = 4");
+        $this->selectAllByEntreprise = $db->prepare("select u.* from utilisateur u where id_entreprise=:id_entreprise");
         $this->selectByProjet = $db->prepare("select distinct u.* from utilisateur u inner join projet_utilisateur pu on u.id_utilisateur = pu.id_utilisateur inner join projet p on pu.id_projet = p.id_projet and p.id_projet = :idProjet");
         $this->delete = $db->prepare("DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur");
     }
@@ -68,6 +70,14 @@ class Utilisateur{
             print_r($this->selectByEntreprise->errorInfo());
         }
         return $this->selectByEntreprise->fetchAll();
+    }
+
+    public function selectAllByEntreprise($id_entreprise){
+        $this->selectAllByEntreprise->execute(array(':id_entreprise'=>$id_entreprise));
+        if ($this->selectAllByEntreprise->errorCode()!=0){
+            print_r($this->selectAllByEntreprise->errorInfo());
+        }
+        return $this->selectAllByEntreprise->fetchAll();
     }
 
     public function delete($id_utilisateur){
