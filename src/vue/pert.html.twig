@@ -4,179 +4,173 @@
 {% endblock %}
 
 {% block body %}
-	<script src="https://unpkg.com/gojs@2.2.6/release/go.js"></script>
-	{% if form.tache == false %}
-		<div class="alert alert-danger h3 mb-3 font-weight-normal" role="alert">
-			Veuillez ajouter des taches avant de pouvoir afficher le diagramme
-		</div>
-	{% else %}
+  <script src="https://unpkg.com/gojs@2.2.6/release/go.js"></script>
+  {% if form.tache == false %}
+    <div class="alert alert-danger h3 mb-3 font-weight-normal" role="alert">
+      Veuillez ajouter des taches avant de pouvoir afficher le diagramme
+    </div>
+  {% else %}
 
-		<div id="allSampleContent" class="p-4 w-full">
-			<script id="code">
+    <div id="allSampleContent" class="p-4 w-full">
+      <script id="code">
 
-				function init() {
+        function init() {
 
-// Since 2.2 you can also author concise templates with method chaining instead of GraphObject.make
-// For details, see https://gojs.net/latest/intro/buildingObjects.html
-const $ = go.GraphObject.make;
-// for more concise visual tree definitions
+          // Since 2.2 you can also author concise templates with method chaining instead of GraphObject.make
+          // For details, see https://gojs.net/latest/intro/buildingObjects.html
+          const $ = go.GraphObject.make;
+          // for more concise visual tree definitions
 
-// colors used, named for easier identification
-var blue = "#0288D1";
-var pink = "#B71C1C";
-var pinkfill = "#F8BBD0";
-var bluefill = "#B3E5FC";
+          // colors used, named for easier identification
+          var blue = "#0288D1";
+          var pink = "#B71C1C";
+          var pinkfill = "#F8BBD0";
+          var bluefill = "#B3E5FC";
 
-myDiagram = $(go.Diagram, "myDiagramDiv", {
-initialAutoScale: go.Diagram.Uniform,
-layout: $(go.LayeredDigraphLayout)
-});
+          myDiagram = $(go.Diagram, "myDiagramDiv", {
+            initialAutoScale: go.Diagram.Uniform,
+            layout: $(go.LayeredDigraphLayout)
+          });
 
-// The node template shows the activity name in the middle as well as
-// various statistics about the activity, all surrounded by a border.
-// The border's color is determined by the node data's ".critical" property.
-// Some information is not available as properties on the node data,
-// but must be computed -- we use converter functions for that.
-myDiagram.nodeTemplate = $(go.Node, "Auto", $(go.Shape, "Rectangle", { // the border
-fill: "white",
-strokeWidth: 2
-}, new go.Binding("fill", "critical", b => b ? pinkfill : bluefill), new go.Binding("stroke", "critical", b => b ? pink : blue)), $(go.Panel, "Table", {
-padding: 0.5
-}, $(go.RowColumnDefinition, {
-column: 1,
-separatorStroke: "black"
-}), $(go.RowColumnDefinition, {
-row: 0,
-separatorStroke: "black",
-background: "white",
-coversSeparators: true
-}), $(go.RowColumnDefinition, {
-row: 1,
-separatorStroke: "black"
-}), $(go.RowColumnDefinition, {
-row: 2,
-separatorStroke: "black"
-}), $(go.TextBlock, new go.Binding("text", "text"), {
-row: 0,
-column: 0,
-columnSpan: 3,
-margin: 5,
-textAlign: "center",
-font: "bold 14px sans-serif"
-}), $(go.TextBlock, // earlyStart
-new go.Binding("text", "duree_min"), {
-row: 1,
-column: 0,
-margin: 5,
-textAlign: "center"
-}), $(go.TextBlock, // earlyFinish
-new go.Binding("text", "duree_max"), {
-row: 1,
-column: 1,
-margin: 5,
-textAlign: "center"
-}), $(go.TextBlock, // lateStart
-new go.Binding("text", "marge_totale"), {
-row: 2,
-column: 0,
-margin: 5,
-textAlign: "center"
-}), $(go.TextBlock, // lateFinish
-new go.Binding("text", "marge_libre"), {
-row: 2,
-column: 1,
-margin: 5,
-textAlign: "center"
-})) // end Table Panel
-);
-// end Node
+          // The node template shows the activity name in the middle as well as
+          // various statistics about the activity, all surrounded by a border.
+          // The border's color is determined by the node data's ".critical" property.
+          // Some information is not available as properties on the node data,
+          // but must be computed -- we use converter functions for that.
+          myDiagram.nodeTemplate = $(go.Node, "Auto", $(go.Shape, "Rectangle", { // the border
+            fill: "white",
+            strokeWidth: 2
+          }, new go.Binding(
+            "fill", "critical", b => b
+            ? pinkfill
+            : bluefill), new go.Binding(
+            "stroke", "critical", b => b
+            ? pink
+            : blue)), $(go.Panel, "Table", {
+            padding: 0.5
+          }, $(go.RowColumnDefinition, {
+            column: 1,
+            separatorStroke: "black"
+          }), $(go.RowColumnDefinition, {
+            row: 0,
+            separatorStroke: "black",
+            background: "white",
+            coversSeparators: true
+          }), $(go.RowColumnDefinition, {
+            row: 1,
+            separatorStroke: "black"
+          }), $(go.RowColumnDefinition, {
+            row: 2,
+            separatorStroke: "black"
+          }), $(go.TextBlock, new go.Binding("text", "text"), {
+            row: 0,
+            column: 0,
+            columnSpan: 3,
+            margin: 5,
+            textAlign: "center",
+            font: "bold 14px sans-serif"
+          }), $(go.TextBlock, // earlyStart
+              new go.Binding("text", "duree_min"), {
+            row: 1,
+            column: 0,
+            margin: 5,
+            textAlign: "center"
+          }), $(go.TextBlock, // earlyFinish
+              new go.Binding("text", "duree_max"), {
+            row: 1,
+            column: 1,
+            margin: 5,
+            textAlign: "center"
+          }), $(go.TextBlock, // lateStart
+              new go.Binding("text", "marge_totale"), {
+            row: 2,
+            column: 0,
+            margin: 5,
+            textAlign: "center"
+          }), $(go.TextBlock, // lateFinish
+              new go.Binding("text", "marge_libre"), {
+            row: 2,
+            column: 1,
+            margin: 5,
+            textAlign: "center"
+          })) // end Table Panel);
+          // end Node
 
-// The link data object does not have direct access to both nodes
-// (although it does have references to their keys: .from and .to).
-// This conversion function gets the GraphObject that was data-bound as the second argument.
-// From that we can get the containing Link, and then the Link.fromNode or .toNode,
-// and then its node data, which has the ".critical" property we need.
-//
-// But note that if we were to dynamically change the ".critical" property on a node data,
-// calling myDiagram.model.updateTargetBindings(nodedata) would only update the color
-// of the nodes.  It would be insufficient to change the appearance of any Links.
-function linkColorConverter(linkdata, elt) {
-var link = elt.part;
-if (! link) 
-return blue;
+          // The link data object does not have direct access to both nodes
+          // (although it does have references to their keys: .from and .to).
+          // This conversion function gets the GraphObject that was data-bound as the second argument.
+          // From that we can get the containing Link, and then the Link.fromNode or .toNode,
+          // and then its node data, which has the ".critical" property we need.
+          //
+          // But note that if we were to dynamically change the ".critical" property on a node data,
+          // calling myDiagram.model.updateTargetBindings(nodedata) would only update the color
+          // of the nodes.  It would be insufficient to change the appearance of any Links.
+          function linkColorConverter(linkdata, elt) {
+            var link = elt.part;
+            if (!link) 
+              return blue;
+            
+            var f = link.fromNode;
+            if (!f || !f.data || !f.data.critical) 
+              return blue;
+            
+            var t = link.toNode;
+            if (!t || !t.data || !t.data.critical) 
+              return blue;
+            
+            return pink; // when both Link.fromNode.data.critical and Link.toNode.data.critical
+          }
 
-var f = link.fromNode;
-if (! f || ! f.data || ! f.data.critical) 
-return blue;
+          // The color of a link (including its arrowhead) is red only when both
+          // connected nodes have data that is ".critical"; otherwise it is blue.
+          // This is computed by the binding converter function.
+          myDiagram.linkTemplate = $(go.Link, {
+            toShortLength: 6,
+            toEndSegmentLength: 20
+          }, $(go.Shape, {
+            strokeWidth: 4
+          }, new go.Binding("stroke", "", linkColorConverter)), $(go.Shape, { // arrowhead
+            toArrow: "Triangle",
+            stroke: null,
+            scale: 1.5
+          }, new go.Binding("fill", "", linkColorConverter)));
 
-var t = link.toNode;
-if (! t || ! t.data || ! t.data.critical) 
-return blue;
+          // here's the data defining the graph
+          var nodeDataArray = [
+            {
+              key: 0,
+              loc: "100 100",
+              text: "Start",
+              duree_min: 0,
+              duree_max: 0,
+              critical: true
+            }
+          ]
+          var nbkeys = 1
+          var id_to_key = new Object(){% for tache in taches %}id_to_key["{{ tache.id_tache }}"] = nbkeys{% if tache.id_tache != "-1" %}nodeDataArray.push({
+                key: nbkeys,
+                text: "  {{ tache.libelle }}",
+                duree_min: {{ tache.duree_min }},
+                duree_max: {{ tache.duree_max }},
+                marge_totale: {{ tache.marge_totale }},
+                marge_libre: {{ tache.marge_libre }},
+                critical: {{ tache.marge_totale == 0 ? "true" : "false" }}
+              })
+            {% else %}
+              console.log("{{ tache.marge_totale }}");
+              nodeDataArray.push({key: nbkeys, text: "Finish", duree_min: {{ tache.duree_min }}, duree_max: {{ tache.duree_max }}, critical: true}){% endif %}nbkeys++{% endfor %}
+          console.log(id_to_key);
+          var linkDataArray = []{% for tache in taches %}
+            {% if tache.liste_taches_precedentes | length == 0 %}linkDataArray.push({from: 0, to: id_to_key["{{ tache.id_tache }}"]})
+            {% else %}
+              {% for tache_precedente in tache.liste_taches_precedentes %}linkDataArray.push({from: id_to_key["{{ tache_precedente }}"], to: id_to_key["{{ tache.id_tache }}"]}){% endfor %}
+            {% endif %}
+          {% endfor %}
 
-return pink; // when both Link.fromNode.data.critical and Link.toNode.data.critical
-}
+          console.log(linkDataArray);
 
-// The color of a link (including its arrowhead) is red only when both
-// connected nodes have data that is ".critical"; otherwise it is blue.
-// This is computed by the binding converter function.
-myDiagram.linkTemplate = $(go.Link, {
-toShortLength: 6,
-toEndSegmentLength: 20
-}, $(go.Shape, {
-strokeWidth: 4
-}, new go.Binding("stroke", "", linkColorConverter)), $(go.Shape, { // arrowhead
-toArrow: "Triangle",
-stroke: null,
-scale: 1.5
-}, new go.Binding("fill", "", linkColorConverter)));
+          /*var nodeDataArray =
 
-// here's the data defining the graph
-var nodeDataArray = [{
-key: 0,
-loc: "100 100",
-text: "Start",
-duree_min: 0,
-duree_max: 0,
-critical: true
-}]
-var nbkeys = 1
-var id_to_key = new Object(){% for tache in taches %}id_to_key["{{ tache.id_tache }}"] = nbkeys {% if tache.id_tache != "-1" %}nodeDataArray.push({
-key: nbkeys,
-text: "  {{ tache.libelle }}",
-duree_min: {{ tache.duree_min }},
-duree_max: {{ tache.duree_max }},
-marge_totale: {{ tache.marge_totale }},
-marge_libre: {{ tache.marge_libre }},
-critical: {{ tache.marge_totale == 0 ? "true" : "false" }}
-})
-{% else %}
-console.log("{{ tache.marge_totale }}");
-nodeDataArray.push({
-key: nbkeys,
-text: "Finish",
-duree_min: {{ tache.duree_min }},
-duree_max: {{ tache.duree_max }},
-critical: true
-}){% endif %}nbkeys++{% endfor %}
-console.log(id_to_key);
-var linkDataArray = []{% for tache in taches %}
-{% if tache.liste_taches_precedentes | length == 0 %}linkDataArray.push({
-from: 0,
-to: id_to_key["{{ tache.id_tache }}"]
-})
-{% else %}
-{% for tache_precedente in tache.liste_taches_precedentes %}linkDataArray.push({
-from: id_to_key["{{ tache_precedente }}"],
-to: id_to_key["{{ tache.id_tache }}"]
-}){% endfor %}
-{% endif %}
-{% endfor %}
-
-console.log(linkDataArray);
-
-
-/*var nodeDataArray =
-      
       [
         { key: 1, text: "Start", length: 0, earlyStart: 0, lateFinish: 0, critical: true },
         { key: 2, text: "a", length: 4, earlyStart: 0, lateFinish: 4, critical: true },
@@ -201,72 +195,71 @@ console.log(linkDataArray);
         { from: 7, to: 9 },
         { from: 8, to: 9 }
       ];*/
-myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
+          myDiagram.model = new go.GraphLinksModel(nodeDataArray, linkDataArray);
 
-// create an unbound Part that acts as a "legend" for the diagram
-myDiagram.add($(go.Node, "Auto", $(go.Shape, "Rectangle", { // the border
-fill: bluefill
-}), $(go.Panel, "Table", {
-padding: 0.5
-}, $(go.RowColumnDefinition, {
-column: 1,
-separatorStroke: "black"
-}), $(go.RowColumnDefinition, {
-row: 0,
-separatorStroke: "black",
-background: "white",
-coversSeparators: true
-}), $(go.RowColumnDefinition, {
-row: 1,
-separatorStroke: "black"
-}), $(go.RowColumnDefinition, {
-row: 2,
-separatorStroke: "black"
-}), $(go.TextBlock, "Nom de la tache", {
-row: 0,
-column: 0,
-columnSpan: 3,
-margin: 5,
-textAlign: "center",
-font: "bold 14px sans-serif"
-}), $(go.TextBlock, "Date au plus tôt", {
-row: 1,
-column: 0,
-margin: 15,
-textAlign: "center"
-}), $(go.TextBlock, "Date au plus tard", {
-row: 1,
-column: 1,
-margin: 15,
-textAlign: "center"
-}), $(go.TextBlock, "Marge totale", {
-row: 2,
-column: 0,
-margin: 15,
-textAlign: "center"
-}), $(go.TextBlock, "Marge libre", {
-row: 2,
-column: 1,
-margin: 15,
-textAlign: "center"
-})) // end Table Panel
-));
-}
-window.addEventListener('DOMContentLoaded', init);
-			</script>
+          // create an unbound Part that acts as a "legend" for the diagram
+          myDiagram.add($(go.Node, "Auto", $(go.Shape, "Rectangle", { // the border
+            fill: bluefill
+          }), $(go.Panel, "Table", {
+            padding: 0.5
+          }, $(go.RowColumnDefinition, {
+            column: 1,
+            separatorStroke: "black"
+          }), $(go.RowColumnDefinition, {
+            row: 0,
+            separatorStroke: "black",
+            background: "white",
+            coversSeparators: true
+          }), $(go.RowColumnDefinition, {
+            row: 1,
+            separatorStroke: "black"
+          }), $(go.RowColumnDefinition, {
+            row: 2,
+            separatorStroke: "black"
+          }), $(go.TextBlock, "Nom de la tache", {
+            row: 0,
+            column: 0,
+            columnSpan: 3,
+            margin: 5,
+            textAlign: "center",
+            font: "bold 14px sans-serif"
+          }), $(go.TextBlock, "Date au plus tôt", {
+            row: 1,
+            column: 0,
+            margin: 15,
+            textAlign: "center"
+          }), $(go.TextBlock, "Date au plus tard", {
+            row: 1,
+            column: 1,
+            margin: 15,
+            textAlign: "center"
+          }), $(go.TextBlock, "Marge totale", {
+            row: 2,
+            column: 0,
+            margin: 15,
+            textAlign: "center"
+          }), $(go.TextBlock, "Marge libre", {
+            row: 2,
+            column: 1,
+            margin: 15,
+            textAlign: "center"
+          })) // end Table Panel));
+        }
+        window.addEventListener('DOMContentLoaded', init);
+      </script>
 
-			<div id="sample">
-				<div id="myDiagramDiv" style="border: 1px solid black; width: 100%; height: 400px; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0);">
-					<canvas tabindex="0" width="1555" height="597" style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; touch-action: none; width: 1037px; height: 398px;">This text is displayed if your browser does not support the Canvas HTML element.</canvas>
-					<div style="position: absolute; overflow: auto; width: 1037px; height: 398px; z-index: 1;">
-						<div style="position: absolute; width: 1px; height: 1px;"></div>
-					</div>
-				</div>
+      <div id="sample">
+        <div id="myDiagramDiv" style="border: 1px solid black; width: 100%; height: 400px; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0);">
+          <canvas tabindex="0" width="1555" height="597" style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; touch-action: none; width: 1037px; height: 398px;">This text is displayed if your browser does not support the Canvas HTML element.</canvas>
+          <div style="position: absolute; overflow: auto; width: 1037px; height: 398px; z-index: 1;">
+            <div style="position: absolute; width: 1px; height: 1px;"></div>
+          </div>
+        </div>
 
-			</div>
-			{% for u in tableNiveau %}
-				<p>{{ u }}</p>
-			{% endfor %}
+      </div>
+      {% for u in tableNiveau %}
+        <p>{{ u }}</p>
+      {% endfor %}
 
-		{% endif %}
-	{% endblock %}
+    {% endif %}
+  {% endblock %}
