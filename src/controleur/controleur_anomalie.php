@@ -3,8 +3,9 @@ function actionAjoutAnomalie($twig, $db) {
     $form = array();
     $utilisateur = new Utilisateur($db);
     $anomalie = new Anomalie($db);
-    $unUtilisateur = $utilisateur->selectByEmail($_SESSION['login']);
     $idProjet = $_GET['idProjet'];
+    $lesAnomalies = $anomalie->selectAnomalieByProjet($idProjet);
+    $unUtilisateur = $utilisateur->selectByEmail($_SESSION['login']);
     $nbAnomalie = $anomalie->selectNumberAnomalieByProjet($idProjet);
     $num_anomalie = $nbAnomalie['nbAnomalie'];
     $num_anomalie = $num_anomalie + 1;
@@ -22,15 +23,7 @@ function actionAjoutAnomalie($twig, $db) {
         }
     }
 
-    echo $twig->render('ajoutAnomalie.html.twig', array('form'=>$form));
-}
-
-function actionListeAnomalie($twig, $db) {
-    $form = array();
-    $anomalie = new Anomalie($db);
-    $idProjet = $_GET['idProjet'];
-    $anomalie = $anomalie->selectAnomalieByProjet($idProjet);
-    echo $twig->render('listeAnomalie.html.twig', array('anomalies'=>$anomalie));
+    echo $twig->render('anomalie.html.twig', array('form'=>$form, 'anomalies'=>$lesAnomalies));
 }
 
 function actionGraphAnomalie($twig, $db) {

@@ -200,7 +200,6 @@ function actionPert($twig, $db) {
     // }
     // var_dump($tableNiveau);
         
-    echo $twig->render('pert.html.twig', array('taches'=>$finalTable));
     if(isset($_GET['api'])){
         $finalTableAPI = [];
         foreach($finalTable as $tache){

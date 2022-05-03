@@ -1,14 +1,5 @@
 <?php
-function actionListeRisques($twig, $db) {
-    $risque = new Risque($db);
-    $idProjet = $_GET['idProjet'];
-    if(isset($_GET['idRisque'])){
-       $risque->delete($_GET['idProjet'], $_GET['idRisque']);
-        
-    }
-    $risques = $risque->selectRisqueByProjet($idProjet);
-    echo $twig->render('risque.html.twig', array('risques'=>$risques, 'idProjet'=>$idProjet));
-}
+
 function actionListeTypeRisque($twig, $db) {
     $risque = new Risque($db);
     
@@ -44,8 +35,12 @@ function actionRisqueByClasse($twig,$db){
 
 function actionAjoutRisque($twig, $db) {
     $form = array();
-    $idProjet = $_GET['idProjet'];
     $risque = new Risque($db);
+    $idProjet = $_GET['idProjet'];
+    if(isset($_GET['idRisque'])){
+       $risque->delete($_GET['idProjet'], $_GET['idRisque']);
+    }
+    $risques = $risque->selectRisqueByProjet($idProjet);
     $listeTypeRisque = $risque->selectTypeRisque();
     $listeClasseRisque = $risque->selectClasseRisque();
     if(isset($_POST['btAjoutRisque'])){
@@ -65,11 +60,8 @@ function actionAjoutRisque($twig, $db) {
             $form['message'] = "Erreur d'ajout du risque";
         }
     }
-
-    echo $twig->render('ajoutRisque.html.twig', array('form'=>$form, 'type_risque'=>$listeTypeRisque));
+    echo $twig->render('risque.html.twig', array('form'=>$form, 'type_risque'=>$listeTypeRisque, 'risques'=>$risques, 'idProjet'=>$idProjet));
 }
-
-
 
 
 ?>

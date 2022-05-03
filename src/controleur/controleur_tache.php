@@ -8,6 +8,11 @@ function actionAjoutTache($twig, $db) {
     $utilisateur = new Utilisateur($db);
     $unUtilisateur = $utilisateur->selectByEmail($_SESSION['login']);
     $UtilisateursByProjet = $utilisateur->selectByProjet($_GET['idProjet']);
+    $idProjet = $_GET['idProjet'];
+    if(isset($_GET['idTache'])){
+        $tache->deleteTache($_GET['idTache']);
+     }
+    $listeTaches = $tache->selectTachesByProjet($idProjet);
     if(isset($_POST['btAjoutTache'])){
         
         $exec = $tache->insert($_GET['idProjet'],$_POST['libelle'], $_POST['duree']);
@@ -35,7 +40,7 @@ function actionAjoutTache($twig, $db) {
         }
     }
 
-    echo $twig->render('ajoutTache.html.twig', array('form'=>$form, 'utilisateurs'=>$UtilisateursByProjet, "listeTacheProjet"=>$listeTacheProjet));
+    echo $twig->render('tache.html.twig', array('form'=>$form, 'utilisateurs'=>$UtilisateursByProjet, "listeTacheProjet"=>$listeTacheProjet, 'taches'=>$listeTaches, 'idProjet' => $idProjet));
 }
 
 function actionListeTacheByUtilisateur($twig, $db) {

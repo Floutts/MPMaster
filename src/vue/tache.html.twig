@@ -20,7 +20,7 @@
 
 	<div class="container-fluid">
 		<div class="row justify-content-center">
-			<h1 class="text-center text-secondary p-4">Ajouter une nouvelle tache</h1>
+			<h1 class="text-center text-secondary p-4">Gestion des taches</h1>
 		</div>
 		<div class="row justify-content-center">
 			<div class="col-8 bg-primary p-4 m-0 text-white">
@@ -35,27 +35,60 @@
 					<input type="number" step="0.1" id="duree" name="duree" required="required" class="form-control"/>
 				</div>
 				<br></br>
-			{% for u in utilisateurs %}
-			<div class="form-group">
-				<label class="font-weightbold required" for="chef">{{u.prenom}}</label>
-				<input type="checkbox" name="utilsateurTache[]" value="{{u.id_utilisateur}}"/>
-			</div>
-			{% endfor %}
-			<br></br>
-			
+		
 			<div class="form-group">
 					<label class="font-weightbold required" for="chef">Tâche précédente</label>
-					<select name="tachePreced" id="tachePreced">
+					<select name="tachePreced" id="tachePreced" class="form-control">
 						<option value="Aucune">Aucune</option>
 						{% for t in listeTacheProjet %}
 							<option value="{{t.id_tache}}">{{t.libelle}}</option>
 						{% endfor %}
 					</select>
 				</div>
-			
+			<br></br>
+	{% for u in utilisateurs %}
+			<div class="form-group">
+				<label class="font-weightbold required" for="chef">{{u.prenom}}</label>
+				<input type="checkbox" name="utilsateurTache[]" value="{{u.id_utilisateur}}" />
+			</div>
+			{% endfor %}
+			<br></br>
 		<div class="form-group mx-auto text-center">
 			<button type="submit" id="btAjoutProjet" name="btAjoutTache" class="btn font-weightbold bg-success text-white mx-auto text-center">Ajouter</button>
 		</div>
 
 	</div>
-</div></div>{% endif %}{% endblock %}
+</div></div>
+		<div class="container-fluid">
+
+			<div class="row justify-content-center">
+				<div class="col-8 bg-secondary p-4 m-0 text-white">
+					<table class="table">
+						<thead>
+							<tr>
+								<th scope="col">Nom de la tache</th>
+								<th scope="col">Durée ( en heure )</th>
+							</tr>
+						</thead>
+						<tbody>
+                        {% for t in taches %}
+							<tr>
+								<th scope="row">{{t.libelle}}</th>
+								<th scope="row">{{t.duree}}</th>
+								<td>
+									<div class="btn-group btn-group-lg">
+										<a href="index.php?page=ajoutTache&idProjet={{idProjet}}&idTache={{t.id_tache}}">
+											<span class="material-icons">delete</span>
+										</a>
+									</div>
+								</td>
+							</tr>
+                            {% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+{% endif %}
+{% endblock %}

@@ -18,14 +18,9 @@ function getPage($db)
     $lesPages['abonnements'] = "actionAbonnements;0";
     $lesPages['risque'] = "actionAjoutRisque;0";
     $lesPages['anomalie'] = "actionAjoutAnomalie;0";
-    $lesPages['listeAnomalie'] = "actionListeAnomalie;0";
-    $lesPages['listeRisques'] = "actionListeRisques;0";
     $lesPages['listeTypeRisque'] = "actionListeTypeRisque;0";
     $lesPages['listeUtilisateur'] = "actionListeUtilisateur;0";
     $lesPages['graphiqueAnomalie'] = "actionGraphAnomalie;0";
-
-    
-
 
 
     /*****************
