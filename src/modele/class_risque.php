@@ -61,7 +61,7 @@ class Risque{
         if ($this->selectClasseRisque->errorCode()!=0){
             print_r($this->selectClasseRisque->errorInfo());
         }
-        return $this->selectRisqueByProjet->fetchAll();
+        return $this->selectClasseRisque->fetchAll();
     }
     public function selectTypeRisque(){
         $this->selectTypeRisque->execute();

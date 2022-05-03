@@ -59,8 +59,9 @@
 				<div class="form-group">
 				<label class="font-weightbold required" for="chef">Classe du risque</label>
 				<select name="classe_risque" id="classe_risque">
-					{% for r in classe_risque %}
-						<option value="{{ r.id_classe_risque }}">{{ r.libelle }}</option>
+					<option value="">- Classe de risque -</option>
+					{% for cr in classe_risque %}
+						<option value="{{ cr.id_classe_risque }}">{{ cr.libelle }}</option>
 					{% endfor %}
 				</select>
 				</div>
@@ -78,23 +79,33 @@
 
 	</div>
 </div></div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
-function majType(id_classe_risque){
-    $.ajax({
-        type: "POST",
-        url: "index.php?page=risqueByClasse&id_classe_risque=1",
-        success : function(text){
-            console.log(text)
-        },
-		error: function (xhr, ajaxOptions, thrownError) {
-			alert(chr.responseText); //Ce code affichera le message d'erreur, ici Message d'erreur.
-		} 
-    });
-}
 
-$('#').change(function(){
-	majType
-})
-
+$(document).ready(function () {
+	function majRisques(id_classe_risque){
+		
+		$.ajax({
+			dataType: "json",
+        	type: "json",
+        	url: "index.php?page=risqueByClasse&id_classe_risque="+id_classe_risque,
+        	success : function(json){
+				type_risque = '<option value="">- Type de risque -</option>'
+				$.each(json, function(k,v) {
+					type_risque += '<option value="'+v.id_type_risque+'">'+v.libelle+'</option>'
+					console.log(v);
+				});
+            	$('#type_risque').html(type_risque)
+        	},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(chr.responseText); //Ce code affichera le message d'erreur, ici Message d'erreur.
+			} 
+    	});
+	}
+	    
+	$('#classe_risque').change(function(){
+		majRisques($(this).val())
+	})
+});
 </script>
 {% endif %}{% endblock %}

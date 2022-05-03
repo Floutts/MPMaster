@@ -47,7 +47,6 @@ function actionAjoutRisque($twig, $db) {
     $listeTypeRisque = $risque->selectTypeRisque();
     $listeClasseRisque = $risque->selectClasseRisque();
     if(isset($_POST['btAjoutRisque'])){
-        var_dump($_POST);
         $id_type_risque = $_POST['type_risque'];
         $probabilite = $_POST['proba'];
         $severite = $_POST['severite'];
@@ -64,7 +63,7 @@ function actionAjoutRisque($twig, $db) {
         }
     }
 
-    echo $twig->render('ajoutRisque.html.twig', array('form'=>$form, 'type_risque'=>$listeTypeRisque));
+    echo $twig->render('ajoutRisque.html.twig', array('form'=>$form, 'classe_risque'=>$listeClasseRisque));
 }
 
 
