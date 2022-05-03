@@ -2,6 +2,7 @@
 
 
 function actionPert($twig, $db) {
+    $form = array();
     $pert = new Pert($db);
     $idProjet = $_GET['idProjet'];
     $listeTachesCopie = $pert->selectTaches($idProjet);
@@ -13,6 +14,12 @@ function actionPert($twig, $db) {
     $finalTable = array(); // [id_tache,libelle,duree,[id_tache_precedente1,id_tache_precedente2],[id_tache_suivante1,id_tache_suivante2],niveau,duree_min,duree_max,marge_libre,marge_totale,is_critique]
     $id_tache_to_key = array();
 
+    if(sizeof($listeTachesCopie) == 0){
+        $form['tache'] = false;
+    }
+    else{
+
+    
     foreach($listeTaches as $key=>$tache){
         $id_tache_to_key[$tache['id_tache']] = $key;
         $listeTachePreced = [];
@@ -140,6 +147,60 @@ function actionPert($twig, $db) {
     }
 
     array_push($finalTable,$tache_fin);
+    var_dump($finalTable);
+    }
+
+
+
+    // while($a <= count($listeTaches)-1){
+    //     $a++;
+    //     $i =-1;
+       
+    //     while ($i <= count($listeTachePreced)-1){
+    //         $i++;
+           
+    //         if($listeTaches[$a]["id_tache"] == $listeTachePreced[$i]["id_tache"]){
+    //             break;
+    //         }
+    //         elseif($i == count($listeTachePreced)-1){
+    //             $tableTmpNiveau[] = $listeTaches[$a]["id_tache"];
+    //             unset($listeTaches[$a]);
+    //             break;
+    //         }
+
+    //         if( count($listeTachePreced)==0){
+    //             $tableTmpNiveau[] = $listeTaches[$a]["id_tache"];
+                
+    //         }
+            
+    //     }
+       
+    //     if($a == count($listeTaches)-1){
+    //         if(count($listeTachePreced)>0){
+    //             $a = -1;
+                
+    //         }
+    //         $tableNiveau[] = $tableTmpNiveau;
+            
+    //         for($t = 0; $t<=count($tableTmpNiveau)-1; $t++){
+                
+    //             for($u = 0; $u<=count($listeTachePreced); $u++){
+                    
+    //                 if($tableTmpNiveau[$t]["id_tache"] == $listeTachePreced[$u]["id_tache_precedente"]){      
+                        
+    //                    unset($listeTachePreced[$u]);
+                       
+    //                 }
+    //             }
+                
+    //         }      
+    //         array_diff($tableTmpNiveau,$tableTmpNiveau);     
+    //     }
+        
+    // }
+    // var_dump($tableNiveau);
+        
+    echo $twig->render('pert.html.twig', array('taches'=>$finalTable));
     if(isset($_GET['api'])){
         $finalTableAPI = [];
         foreach($finalTable as $tache){

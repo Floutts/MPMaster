@@ -37,6 +37,13 @@
                         {% for t in taches %}
 							<tr>
 								<th scope="row">{{t.libelle}}</th>
+								<td>
+									<div class="btn-group btn-group-lg">
+										<a href="index.php?page=listeTacheByUtilisateur&idTache={{t.id_tache}}">
+											<span class="material-icons">delete</span>
+										</a>
+									</div>
+								</td>
 							</tr>
                             {% endfor %}
 						</tbody>

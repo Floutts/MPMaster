@@ -32,3 +32,11 @@ function actionListeAnomalie($twig, $db) {
     $anomalie = $anomalie->selectAnomalieByProjet($idProjet);
     echo $twig->render('listeAnomalie.html.twig', array('anomalies'=>$anomalie));
 }
+
+function actionGraphAnomalie($twig, $db) {
+    $form = array();
+    $anomalie = new Anomalie($db);
+    $idProjet = $_GET['idProjet'];
+    $anomalie = $anomalie->selectAnomalieByProjet($idProjet);
+    echo $twig->render('grapiqueAnomalie.html.twig');
+}

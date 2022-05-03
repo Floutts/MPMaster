@@ -11,8 +11,8 @@ function actionListeRisques($twig, $db) {
 }
 function actionListeTypeRisque($twig, $db) {
     $risque = new Risque($db);
-    $risques = $risque->selectTypeRisque();
-    $classeType = $risque->selectClasseRisque();
+    
+ 
     if(isset($_GET['idRisque'])){
        $risque->deleteTypeRisque($_GET['idRisque']);
         
@@ -30,6 +30,8 @@ function actionListeTypeRisque($twig, $db) {
             $form['message'] = "Erreur d'ajout du type risque";
         }
     }
+    $risques = $risque->selectTypeRisque();
+    $classeType = $risque->selectClasseRisque();
     echo $twig->render('listeTypeRisque.html.twig', array('risques'=>$risques, 'classeType'=>$classeType));
 }
 

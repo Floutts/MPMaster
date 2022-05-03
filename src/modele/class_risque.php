@@ -21,7 +21,7 @@ class Risque{
         $this->selectTypeRisque = $db->prepare("SELECT type_risque.*, classe_risque.libelle as classLibelle FROM type_risque, classe_risque WHERE classe_risque.id_classe_risque = type_risque.id_classe_risque");
         $this->delete = $db->prepare("DELETE FROM projet_type_risque WHERE id_projet = :idProjet AND id_type_risque = :idRisque");
         $this->deleteTypeRisque = $db->prepare("DELETE FROM type_risque WHERE id_type_risque = :idRisque");
-        $this->selectClasseRisque = $db->prepare("SELECT * FROM classe_risque");
+        $this->selectClasseRisque = $db->prepare("select * from classe_risque");
     }
 
     public function insert($id_projet,$id_type_risque,$probabilite,$severite,$cout_reduc_risque,$moyen_detection,$mesure_correction) {

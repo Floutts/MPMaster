@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EntrepriseController!
+{% endblock %}
+
+{% block body %}
+
+	<div class="container-fluid">
+		<div class="row justify-content-center">
+			<h1 class="text-center text-secondary p-4">Liste des participants</h1>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-8 bg-secondary p-4 m-0 text-white">
+				<table class="table">
+					<thead>
+						<tr>
+							<th scope="col">Nom</th>
+							<th scope="col">Prénom</th>
+							<th scope="col">Email</th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for u in utilisateurs %}
+							<tr>
+								<td>
+									{{u.nom}}
+								</td>
+								<td>
+									{{u.prenom}}
+								</td>
+								<td>
+									{{u.email}}
+								</td>
+								<td>
+									<div class="btn-group btn-group-lg">
+										<a href="index.php?page=listeUtilisateur&idUtilisateur={{u.id_utilisateur}}">
+											<span class="material-icons">delete</span>
+										</a>
+									</div>
+								</td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}
