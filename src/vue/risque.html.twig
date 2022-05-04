@@ -58,21 +58,17 @@
 	<br></br>
 <div class="form-group">
 	<label class="font-weightbold required" for="chef">Classe du risque</label>
-	<select name="classe_risque" id="classe_risque"  class="form-control">
+	<select name="classe_risque" id="classe_risque" class="form-control">
 		{% for r in classe_risque %}
 			<option value="{{ r.id_classe_risque }}">{{ r.libelle }}</option>
 		{% endfor %}
 	</select>
 </div>
-	<br></br>
-<div class="form-group">
-	<label class="font-weightbold required" for="chef">Type du risque</label>
-	<select name="type_risque" id="type_risque" class="form-control">
-		<option value="">- Type de risque -</option>
-	</select>
-</div>
-<br></br><div class="form-group mx-auto text-center">
-<button type="submit" id="btAjoutRisque" name="btAjoutRisque" class="btn font-weightbold bg-success text-white mx-auto text-center">Ajouter</button></div></div></div></div><script>function majType(id_classe_risque) {
+<br></br><div class="form-group">
+<label class="font-weightbold required" for="chef">Type du risque</label>
+<select name="type_risque" id="type_risque" class="form-control">
+	<option value="">- Type de risque -</option>
+</select></div><br></br><div class="form-group mx-auto text-center"><button type="submit" id="btAjoutRisque" name="btAjoutRisque" class="btn font-weightbold bg-success text-white mx-auto text-center">Ajouter</button></div></div></div></div><script>function majType(id_classe_risque) {
 $.ajax({
 type: "POST",
 url: "index.php?page=risqueByClasse&id_classe_risque=1",
@@ -87,58 +83,51 @@ alert(chr.responseText); // Ce code affichera le message d'erreur, ici Message d
 
 $('#').change(function () {
 majType
-})</script>
-<div class="container-fluid">
-<div class="row justify-content-center">
-<div class="col-8 bg-secondary p-4 m-0 text-white">
-<table class="table">
-<thead>
+})</script><div class="container-fluid"><div class="row justify-content-center"><div class="col-8 bg-secondary p-4 m-0 text-white"><table class="table"><thead>
+<tr>
+	<th scope="col">Nom du risque</th>
+	<th scope="col">Classe de Risque</th>
+	<th scope="col">Probabilite</th>
+	<th scope="col">Severite</th>
+	<th scope="col">Coût de réduction du risque</th>
+	<th scope="col">Moyen de détection</th>
+	<th scope="col">Moyen de correction</th>
+	<th scope="col"></th>
+</tr></thead><tbody>
+{% for p in risques %}
 	<tr>
-		<th scope="col">Nom du risque</th>
-		<th scope="col">Classe de Risque</th>
-		<th scope="col">Probabilite</th>
-		<th scope="col">Severite</th>
-		<th scope="col">Coût de réduction du risque</th>
-		<th scope="col">Moyen de détection</th>
-		<th scope="col">Moyen de correction</th>
-		<th scope="col"></th>
+		<th scope="row">{{p.libelleRisque}}</th>
+		<td>
+
+			{{p.libelleCRisque}}
+
+		</td>
+		<td>
+
+			{{p.probabilite}}
+			%
+
+		</td>
+		<td>
+			{{p.severite}}
+		</td>
+		<td>
+			{{p.cout_reduc_risque}}
+			€
+		</td>
+		<td>
+			{{p.moyen_detection}}
+		</td>
+		<td>
+			{{p.mesure_correction}}
+		</td>
+		<td>
+			<div class="btn-group btn-group-lg">
+				<a href="index.php?page=risque&idProjet={{idProjet}}&idRisque={{p.id_type_risque}}">
+					<span class="material-icons">delete</span>
+				</a>
+			</div>
+		</td>
 	</tr>
-</thead>
-<tbody>
-	{% for p in risques %}
-		<tr>
-			<th scope="row">{{p.libelleRisque}}</th>
-			<td>
+{% endfor %}</tbody></table></div></div></div>{% endif %}{% endblock %}
 
-				{{p.libelleCRisque}}
-
-			</td>
-			<td>
-
-				{{p.probabilite}}
-				%
-
-			</td>
-			<td>
-				{{p.severite}}
-			</td>
-			<td>
-				{{p.cout_reduc_risque}}
-				€
-			</td>
-			<td>
-				{{p.moyen_detection}}
-			</td>
-			<td>
-				{{p.mesure_correction}}
-			</td>
-			<td>
-				<div class="btn-group btn-group-lg">
-					<a href="index.php?page=risque&idProjet={{idProjet}}&idRisque={{p.id_type_risque}}">
-						<span class="material-icons">delete</span>
-					</a>
-				</div>
-			</td>
-		</tr>
-	{% endfor %}
-</tbody></table></div></div></div>{% endif %}{% endblock %}

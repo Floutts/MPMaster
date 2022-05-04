@@ -18,7 +18,7 @@ class Utilisateur{
         $this->selectByEmail = $db->prepare("select * from utilisateur where email=:email");
         $this->select = $db->prepare("select * from utilisateur");
         $this->selectByEntreprise = $db->prepare("select u.* from utilisateur u where id_entreprise=:id_entreprise and id_role = 4");
-        $this->selectAllByEntreprise = $db->prepare("select u.* from utilisateur u where id_entreprise=:id_entreprise");
+        $this->selectAllByEntreprise = $db->prepare("select u.*, r.* from utilisateur u inner join role r on r.id_role = u.id_role where id_entreprise=:id_entreprise");
         $this->selectByProjet = $db->prepare("select distinct u.* from utilisateur u inner join projet_utilisateur pu on u.id_utilisateur = pu.id_utilisateur inner join projet p on pu.id_projet = p.id_projet and p.id_projet = :idProjet");
         $this->delete = $db->prepare("DELETE FROM utilisateur WHERE id_utilisateur = :id_utilisateur");
     }

@@ -137,11 +137,14 @@
 											<option value="3">Non reproduit</option>
 											<option value="4">Fermé</option>
 										</select>
-										<div class="form-group mx-auto text-center">
-											<button type="submit" id="btModifierAnomalie" name="btModifierAnomalie" class="btn font-weightbold bg-success text-white mx-auto text-center">Modifier</button>
-										</div>
-        						</form>
+        						
 								</td>
+								<td>
+									<div class="form-group mx-auto text-center">
+										<button type="submit" id="btModifierAnomalie" name="btModifierAnomalie" class="btn font-weightbold bg-success text-white mx-auto text-center">Modifier</button>
+									</div>
+								</td>
+								</form>
 							</tr>
 
 						{% endfor %}
@@ -149,9 +152,6 @@
 				</table>
 				<br></br>
 			</form>
-				<div class="form-group mx-auto text-center">
-					<a href="index.php?page=graphiqueAnomalie&idProjet={{a.id_projet}}"><button type="submit" id="btGrapAnomalie" name="btGrapAnomalie" class="btn font-weightbold bg-success text-white mx-auto text-center">Vori le graphique</button></a>
-				</div>
 		</div>
 	</div>
 </div>

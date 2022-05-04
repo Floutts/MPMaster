@@ -9,13 +9,16 @@ function actionAjoutProjet($twig, $db) {
     $chef = $projet->selectChefByEntreprise($idEntreprise);
     if(sizeof($listeUtilisateur) != 0){
         if(isset($_POST['btAjoutProjet'])){
-            $exec = $projet->insert($_POST['libelle'], intval($idEntreprise), intval($_POST['chef']));
-            $idProjet = $db->lastinsertid();
-            if($exec){
                 if(isset($_POST['utilsateurProjet'])){
                     $utilisateurProjet = $_POST['utilsateurProjet'];
+                    $exec = $projet->insert($_POST['libelle'], intval($idEntreprise), intval($_POST['chef']));
+                    $idProjet = $db->lastinsertid();
+                    if(!$exec){
+                        $form['valide'] = false;
+                        $form['message'] = "Erreur lors de la création du projet";
+                    }
                     foreach($utilisateurProjet as $user){
-                       $projet->insertUtilisateurInProjet(floatval($utilisateurProjet[0]), $idProjet);
+                       $projet->insertUtilisateurInProjet(floatval($user), $idProjet);
                     }
                     $form['valide'] = true;
                     $form['message'] = "Projet ajouté";
@@ -24,11 +27,6 @@ function actionAjoutProjet($twig, $db) {
                     $form['valide'] = false;
                     $form['message'] = "Attention, aucun utilisateur n'est assigné au projet ";
                 }
-                
-            }else{
-                $form['valide'] = false;
-                $form['message'] = "Erreur d'ajout du projet";
-            }
         }
     }else{
         $form['valide'] = false;
@@ -41,7 +39,6 @@ function actionAjoutProjet($twig, $db) {
 
 function actionListeProjets($twig, $db) {
     $form = array();
-    var_dump($_SESSION);
     $projet = new Projet($db);
     $utilisateur = new Utilisateur($db);
     $unUtilisateur = $utilisateur->selectByEmail($_SESSION['login']);
@@ -50,6 +47,11 @@ function actionListeProjets($twig, $db) {
     }
     else{
         $listeProjet = $projet->selectProjetById($unUtilisateur['id_utilisateur']);
+    }
+    if(sizeof($listeProjet) == 0){
+        $form['isEmpty'] = false;
+    }else{
+        $form['isEmpty'] = true;
     }
     echo $twig->render('listeProjets.html.twig', array('form'=>$form, 'projets'=>$listeProjet));
 }
