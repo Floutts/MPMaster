@@ -5,6 +5,7 @@ class Anomalie{
     private $insert;
     private $selectNumberAnomalieByProjet;
     private $selectAnomalieByProjet;
+    private $modifyStatut;
     private $selectByEtat;
 
     public function __construct($db){
@@ -12,9 +13,18 @@ class Anomalie{
         $this->insert = $db->prepare("INSERT INTO anomalie(id_projet,num_anomalie,emplacement,etat,scenario,date_anomalie,auteur) values(:id_projet,:num_anomalie,:emplacement,:etat,:scenario,:date_anomalie,:auteur)");
         $this->selectNumberAnomalieByProjet = $db->prepare("SELECT count(*) as nbAnomalie FROM anomalie WHERE id_projet=:id_projet");
         $this->selectAnomalieByProjet = $db->prepare("SELECT * FROM anomalie WHERE id_projet=:id_projet");
+        $this->modifyStatut = $db->prepare("UPDATE anomalie SET etat = :statut WHERE id = :id");
         $this->selectByEtat = $db->prepare("SELECT COUNT(*) as nb FROM anomalie WHERE etat = :num_etat AND id_projet = :id_projet");
     }
     
+    public function modifyStatut($id, $statut) {
+        $r = true;
+        $this->modifyStatut->execute(array(':id'=> $id, ':statut'=>$statut));
+        if ($this->modifyStatut->errorCode() != 0) {
+            print_r($this->modifyStatut->errorInfo());
+            $r = false;
+        } return $r;
+    }
     public function insert($id_projet,$num_anomalie,$emplacement,$etat,$scenario,$date_anomalie,$auteur) {
         $r = true;
         $this->insert->execute(array(':id_projet'=>$id_projet,':num_anomalie'=>$num_anomalie,':emplacement'=>$emplacement,':etat'=>$etat,':scenario'=>$scenario,':date_anomalie'=>$date_anomalie, ':auteur'=>$auteur));
