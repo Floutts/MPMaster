@@ -44,8 +44,9 @@ function actionListeProjets($twig, $db) {
     $unUtilisateur = $utilisateur->selectByEmail($_SESSION['login']);
     if($unUtilisateur['id_role'] <= 2){
         $listeProjet = $projet->selectByEntreprise($_SESSION['entreprise']);
-    }
-    else{
+    }elseif($unUtilisateur['id_role'] == 3){
+        $listeProjet = $projet->selectProjetByIdChef($unUtilisateur['id_utilisateur']);
+    }else{
         $listeProjet = $projet->selectProjetById($unUtilisateur['id_utilisateur']);
     }
     if(sizeof($listeProjet) == 0){

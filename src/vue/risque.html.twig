@@ -5,129 +5,166 @@
 
 {% block body %}
 
-{% if form.valide is defined %}
-	{% if form.valide == false %}
+  {% if form.valide is defined %}
+    {% if form.valide == false %}
 
-		<div class="alert alert-danger h3 mb-3 font-weight-normal" role="alert">
-			{{ form.message }}
-		</div>
+      <div class="alert alert-danger h3 mb-3 font-weight-normal" role="alert">
+        {{ form.message }}
+      </div>
 
-	{% else %}
+    {% else %}
 
-		<div class="alert alert-success h3 mb-3 font-weight-normal" role="alert">
-			{{ form.message }}
-		</div>
+      <div class="alert alert-success h3 mb-3 font-weight-normal" role="alert">
+        {{ form.message }}
+      </div>
 
-	{% endif %}
-{% else %}
+    {% endif %}
+  {% else %}
 
-	<div class="container-fluid">
-		<div class="row justify-content-center">
-			<h1 class="text-center text-secondary p-4">Gestion des risques</h1>
-		</div>
-		<div class="row justify-content-center">
-			<div class="col-8 bg-primary p-4 m-0 text-white">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <h1 class="text-center text-secondary p-4">Gestion des risques</h1>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-8 bg-primary p-4 m-0 text-white">
 
+          <form name="ajout_entreprise" method="post">
 
-				<form name="ajout_entreprise" method="post">
+            <div class="form-group">
+              <label class="font-weightbold required" for="proba">Probabilite</label>
+              <input type="number" id="proba" name="proba" required="required" class="form-control"/>
+            </div>
+            <br></br>
+            <div class="form-group">
+              <label class="font-weightbold required" for="severite">Sévérité</label>
+              <input type="number" id="severite" name="severite" required="required" class="form-control"/>
+            </div>
+            <br></br>
+            <div class="form-group">
+              <label class="font-weightbold required" for="cout">Cout de la reduction du risque</label>
+              <input type="number" id="cout" name="cout" required="required" class="form-control"/>
+            </div>
+            <br></br>
+            <div class="form-group">
+              <label class="font-weightbold required" for="detection">Moyen de detection</label>
+              <input type="text" id="detection" name="detection" required="required" class="form-control"/>
+            </div>
+            <br></br>
+            <div class="form-group">
+              <label class="font-weightbold required" for="correction">Mesure de correction</label>
+              <input type="text" id="correction" name="correction" required="required" class="form-control"/>
+            </div>
+            <br></br>
+            <div class="form-group">
+              <label class="font-weightbold required" for="chef">Classe du risque</label>
+              <select name="classe_risque" id="classe_risque" class="form-control">
+			   <option value="" selected>- Classe du risque -</option>
+                {% for r in classe_risque %}
+                  <option value="{{ r.id_classe_risque }}">{{ r.libelle }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <br></br>
+            <div class="form-group">
+              <label class="font-weightbold required" for="chef">Type du risque</label>
+              <select name="type_risque" id="type_risque" class="form-control">
+                <option value="" selected>- Type de risque -</option>
+              </select>
+            </div>
+            <br></br>
+            <div class="form-group mx-auto text-center">
+              <button type="submit" id="btAjoutRisque" name="btAjoutRisque" class="btn font-weightbold bg-success text-white mx-auto text-center">Ajouter</button>
+            </div>
+          </div>
 
-					<div class="form-group">
-						<label class="font-weightbold required" for="proba">Probabilite</label>
-						<input type="number" id="proba" name="proba" required="required" class="form-control"/>
-					</div>
-					<br></br>
-				<div class="form-group">
-					<label class="font-weightbold required" for="severite">Sévérité</label>
-					<input type="number" id="severite" name="severite" required="required" class="form-control"/>
-				</div>
-				<br></br>
-			<div class="form-group">
-				<label class="font-weightbold required" for="cout">Cout de la reduction du risque</label>
-				<input type="number" id="cout" name="cout" required="required" class="form-control"/>
-			</div>
-			<br></br>
-		<div class="form-group">
-			<label class="font-weightbold required" for="detection">Moyen de detection</label>
-			<input type="text" id="detection" name="detection" required="required" class="form-control"/>
-		</div>
-		<br></br>
-	<div class="form-group">
-		<label class="font-weightbold required" for="correction">Mesure de correction</label>
-		<input type="text" id="correction" name="correction" required="required" class="form-control"/>
-	</div>
-	<br></br>
-<div class="form-group">
-	<label class="font-weightbold required" for="chef">Classe du risque</label>
-	<select name="classe_risque" id="classe_risque" class="form-control">
-		{% for r in classe_risque %}
-			<option value="{{ r.id_classe_risque }}">{{ r.libelle }}</option>
-		{% endfor %}
-	</select>
-</div>
-<br></br><div class="form-group">
-<label class="font-weightbold required" for="chef">Type du risque</label>
-<select name="type_risque" id="type_risque" class="form-control">
-	<option value="">- Type de risque -</option>
-</select></div><br></br><div class="form-group mx-auto text-center"><button type="submit" id="btAjoutRisque" name="btAjoutRisque" class="btn font-weightbold bg-success text-white mx-auto text-center">Ajouter</button></div></div></div></div><script>function majType(id_classe_risque) {
-$.ajax({
-type: "POST",
-url: "index.php?page=risqueByClasse&id_classe_risque=1",
-success: function (text) {
-console.log(text)
-},
-error: function (xhr, ajaxOptions, thrownError) {
-alert(chr.responseText); // Ce code affichera le message d'erreur, ici Message d'erreur.
-}
+        </div>
+      </div>
+	  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script>
+
+$(document).ready(function () {
+	function majRisques(id_classe_risque){
+		
+		$.ajax({
+			dataType: "json",
+        	type: "json",
+        	url: "index.php?page=risqueByClasse&id_classe_risque="+id_classe_risque,
+        	success : function(json){
+				type_risque = '<option value="">- Type de risque -</option>'
+				$.each(json, function(k,v) {
+					type_risque += '<option value="'+v.id_type_risque+'">'+v.libelle+'</option>'
+					console.log(v);
+				});
+            	$('#type_risque').html(type_risque)
+        	},
+			error: function (xhr, ajaxOptions, thrownError) {
+				alert(chr.responseText); //Ce code affichera le message d'erreur, ici Message d'erreur.
+			} 
+    	});
+	}
+	    
+	$('#classe_risque').change(function(){
+		majRisques($(this).val())
+	})
 });
-}
+      </script>
+      <div class="container-fluid">
+        <div class="row justify-content-center">
+          <div class="col-8 bg-secondary p-4 m-0 text-white">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Nom du risque</th>
+                  <th scope="col">Classe de Risque</th>
+                  <th scope="col">Probabilite</th>
+                  <th scope="col">Severite</th>
+                  <th scope="col">Coût de réduction du risque</th>
+                  <th scope="col">Moyen de détection</th>
+                  <th scope="col">Moyen de correction</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for p in risques %}
+                  <tr>
+                    <th scope="row">{{p.libelleRisque}}</th>
+                    <td>
 
-$('#').change(function () {
-majType
-})</script><div class="container-fluid"><div class="row justify-content-center"><div class="col-8 bg-secondary p-4 m-0 text-white"><table class="table"><thead>
-<tr>
-	<th scope="col">Nom du risque</th>
-	<th scope="col">Classe de Risque</th>
-	<th scope="col">Probabilite</th>
-	<th scope="col">Severite</th>
-	<th scope="col">Coût de réduction du risque</th>
-	<th scope="col">Moyen de détection</th>
-	<th scope="col">Moyen de correction</th>
-	<th scope="col"></th>
-</tr></thead><tbody>
-{% for p in risques %}
-	<tr>
-		<th scope="row">{{p.libelleRisque}}</th>
-		<td>
+                      {{p.libelleCRisque}}
 
-			{{p.libelleCRisque}}
+                    </td>
+                    <td>
 
-		</td>
-		<td>
+                      {{p.probabilite}}
+                      %
 
-			{{p.probabilite}}
-			%
-
-		</td>
-		<td>
-			{{p.severite}}
-		</td>
-		<td>
-			{{p.cout_reduc_risque}}
-			€
-		</td>
-		<td>
-			{{p.moyen_detection}}
-		</td>
-		<td>
-			{{p.mesure_correction}}
-		</td>
-		<td>
-			<div class="btn-group btn-group-lg">
-				<a href="index.php?page=risque&idProjet={{idProjet}}&idRisque={{p.id_type_risque}}">
-					<span class="material-icons">delete</span>
-				</a>
-			</div>
-		</td>
-	</tr>
-{% endfor %}</tbody></table></div></div></div>{% endif %}{% endblock %}
-
+                    </td>
+                    <td>
+                      {{p.severite}}
+                    </td>
+                    <td>
+                      {{p.cout_reduc_risque}}
+                      €
+                    </td>
+                    <td>
+                      {{p.moyen_detection}}
+                    </td>
+                    <td>
+                      {{p.mesure_correction}}
+                    </td>
+                    <td>
+                      <div class="btn-group btn-group-lg">
+                        <a href="index.php?page=risque&idProjet={{idProjet}}&idRisque={{p.id_type_risque}}">
+                          <span class="material-icons">delete</span>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endblock %}
