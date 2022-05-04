@@ -6,6 +6,7 @@ class Projet{
     private $insertUtilisateurInProjet;
     private $selectChefByEntreprise;
     private $selectProjetById;
+    private $selectProjetByIdChef;
     private $selectByUser;
     private $selectByEntreprise;
 
@@ -15,6 +16,7 @@ class Projet{
         $this->insertUtilisateurInProjet = $db->prepare("insert into projet_utilisateur(id_utilisateur, id_projet) values(:id_utilisateur, :id_projet)");
         $this->selectChefByEntreprise = $db->prepare("SELECT DISTINCT u.* FROM utilisateur u WHERE u.id_entreprise = :idEntreprise AND u.id_role = 3");
         $this->selectProjetById = $db->prepare("SELECT * FROM projet_utilisateur pu INNER JOIN projet p on p.id_projet = pu.id_projet where pu.id_utilisateur = :idUtilisateur");
+        $this->selectProjetByIdChef = $db->prepare("SELECT * FROM projet where id_chef_projet = :idUtilisateur");
         $this->selectByUser = $db->prepare("SELECT v.id_utilisateur, v.id_projet, p.libelle FROM projet_utilisateur v INNER JOIN utilisateur u ON u.id_utilisateur = v.id_utilisateur INNER JOIN projet p ON p.id_projet = v.id_projet WHERE v.id_utilisateur = :id_user");
         $this->selectByEntreprise = $db->prepare("SELECT id_projet, libelle FROM projet WHERE id_entreprise = :id_entreprise");
     }
@@ -52,6 +54,14 @@ class Projet{
             print_r($this->selectProjetById->errorInfo());
         }
         return $this->selectProjetById->fetchAll();
+    }
+
+    public function selectProjetByIdChef($idUtilisateur){
+        $this->selectProjetByIdChef->execute(array(':idUtilisateur'=>$idUtilisateur));
+        if ($this->selectProjetByIdChef->errorCode()!=0){
+            print_r($this->selectProjetByIdChef->errorInfo());
+        }
+        return $this->selectProjetByIdChef->fetchAll();
     }
 
 
