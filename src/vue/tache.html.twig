@@ -39,7 +39,7 @@
 		
 			<div class="form-group">
 					<label class="font-weightbold required" for="chef">Tâche précédente</label>
-					<select name="tachePreced" id="tachePreced" class="form-control">
+					<select name="tachePreced[]" id="tachePreced" class="form-control" multiple>
 						<option value="Aucune">Aucune</option>
 						{% for t in listeTacheProjet %}
 							<option value="{{t.id_tache}}">{{t.libelle}}</option>
