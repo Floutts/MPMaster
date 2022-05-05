@@ -76,6 +76,9 @@
                             {% endfor %}
 						</tbody>
 					</table>
+					{% if form.isEmpty == false %}
+						<h1 class="text-center text-secondary p-4">Aucun projet a afficher</h1>
+					{% endif %}
 				</div>
 			</div>
 		</div>

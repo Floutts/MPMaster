@@ -39,7 +39,7 @@
 		
 			<div class="form-group">
 					<label class="font-weightbold required" for="chef">Tâche précédente</label>
-					<select name="tachePreced" id="tachePreced" class="form-control">
+					<select name="tachePreced[]" id="tachePreced" class="form-control" multiple>
 						<option value="Aucune">Aucune</option>
 						{% for t in listeTacheProjet %}
 							<option value="{{t.id_tache}}">{{t.libelle}}</option>
@@ -70,7 +70,7 @@
 						<thead>
 							<tr>
 								<th scope="col">Nom de la tache</th>
-								<th scope="col">Durée ( en heure )</th>
+								<th scope="col">Durée ( en heures )</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -78,6 +78,7 @@
 							<tr>
 								<th scope="row">{{t.libelle}}</th>
 								<th scope="row">{{t.duree}}</th>
+								{% if session.role <= 3 %}
 								<td>
 									<div class="btn-group btn-group-lg">
 										<a href="index.php?page=ajoutTache&idProjet={{idProjet}}&idTache={{t.id_tache}}">
@@ -85,6 +86,7 @@
 										</a>
 									</div>
 								</td>
+								{% endif %}
 							</tr>
                             {% endfor %}
 						</tbody>

@@ -33,9 +33,12 @@ function actionAjoutTache($twig, $db) {
             }else{
                 $utilisateurProjet = array();
             }
-            if($_POST['tachePreced'] != 'Aucune'){
-                $lastTacheProjet = $tache->selectLastTache($_GET['idProjet']);
-                $tache->insertTachePrecedente($lastTacheProjet['id_tache'], $_POST['tachePreced']);}
+            
+            foreach ($_POST['tachePreced'] as $option){
+                var_dump($option);
+                if($option != 'Aucune'){
+                    $lastTacheProjet = $tache->selectLastTache($_GET['idProjet']);
+                    $tache->insertTachePrecedente($lastTacheProjet['id_tache'], $option);}}
             $form['valide'] = true;
             $form['message'] = "Tache ajoutée";
         }else{
