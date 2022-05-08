@@ -36,7 +36,6 @@ function actionConnexion($twig,$db){
         $mdp = $_POST['mdp'];
         $utilisateur = new Utilisateur($db);
         $unUtilisateur = $utilisateur->connect($email);
-        var_dump($unUtilisateur);
         if ($unUtilisateur!=null){
             if(!password_verify($mdp,$unUtilisateur['mdp'])){
                 $form['valide'] = false;
